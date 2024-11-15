@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as NewImport } from './routes/new'
 import { Route as ShopItemIdImport } from './routes/shop/$itemId'
 
 // Create Virtual Routes
@@ -20,6 +21,12 @@ import { Route as ShopItemIdImport } from './routes/shop/$itemId'
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const NewRoute = NewImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -44,6 +51,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/new': {
+      id: '/new'
+      path: '/new'
+      fullPath: '/new'
+      preLoaderRoute: typeof NewImport
+      parentRoute: typeof rootRoute
+    }
     '/shop/$itemId': {
       id: '/shop/$itemId'
       path: '/shop/$itemId'
@@ -58,36 +72,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/new': typeof NewRoute
   '/shop/$itemId': typeof ShopItemIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/new': typeof NewRoute
   '/shop/$itemId': typeof ShopItemIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/new': typeof NewRoute
   '/shop/$itemId': typeof ShopItemIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/shop/$itemId'
+  fullPaths: '/' | '/new' | '/shop/$itemId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/shop/$itemId'
-  id: '__root__' | '/' | '/shop/$itemId'
+  to: '/' | '/new' | '/shop/$itemId'
+  id: '__root__' | '/' | '/new' | '/shop/$itemId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  NewRoute: typeof NewRoute
   ShopItemIdRoute: typeof ShopItemIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  NewRoute: NewRoute,
   ShopItemIdRoute: ShopItemIdRoute,
 }
 
@@ -102,11 +121,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/new",
         "/shop/$itemId"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/new": {
+      "filePath": "new.tsx"
     },
     "/shop/$itemId": {
       "filePath": "shop/$itemId.tsx"

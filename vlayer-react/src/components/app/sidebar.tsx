@@ -32,7 +32,7 @@ const menuItems = [
   {
     icon: SquarePlus,
     label: "List Your ID",
-    href: "/list",
+    href: "/new",
   },
   {
     icon: SquareGanttChart,
