@@ -26,7 +26,7 @@ function RouteComponent() {
   if (!shopItem) return null;
 
   return (
-    <main className="@container p-4 @lg:px-8 max-w-screen-md w-full mx-auto">
+    <main className="@container p-4 sm:px-8 max-w-screen-md w-full mx-auto">
       <div className="flex flex-col @lg:flex-row gap-4 items-center">
         <div className="w-full @lg:w-1/2 px-10 @lg:px-0">
           <Avatar className="w-full h-auto aspect-square rounded-2xl">
@@ -72,7 +72,7 @@ function RouteComponent() {
             <Button variant="outline" className="w-full">
               Chat to Seller
             </Button>
-            <Button className="w-full">Buy🚀</Button>
+            <Button className="w-full">Buy 🚀</Button>
           </div>
         </div>
       </div>
