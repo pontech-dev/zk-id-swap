@@ -22,7 +22,7 @@ const menuItems = [
   {
     icon: ShoppingCart,
     label: "Shop Items",
-    href: "/shop",
+    href: "/",
   },
   {
     icon: MessageSquareText,
@@ -45,12 +45,12 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar variant="inset">
-      <SidebarHeader className="flex-row items-center justify-between">
+    <Sidebar>
+      <SidebarHeader className="flex-row items-center justify-between mt-2">
         <h1 className="text-lg sm:text-2xl font-black">ZK ID Swap</h1>
         <SidebarTrigger className="sm:hidden" />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="mt-2">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
