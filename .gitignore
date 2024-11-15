@@ -13,3 +13,6 @@ docs/
 # Dotenv file
 .env
 **/dependencies/
+
+node_modules/
+.pnpm-store/
