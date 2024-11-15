@@ -1,5 +1,6 @@
 import { Twitter } from "@/components/icons/twitter";
 import { AvatarFallback, AvatarImage, Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { getChainImage } from "@/constants";
 import { useShopItem } from "@/hooks/use-shop-items";
 import { formatShopItemPrice } from "@/lib/format";
@@ -25,15 +26,15 @@ function RouteComponent() {
   if (!shopItem) return null;
 
   return (
-    <main className="p-4">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="w-full sm:w-1/2 px-10">
+    <main className="@container p-4 @lg:px-8 max-w-screen-md w-full mx-auto">
+      <div className="flex flex-col @lg:flex-row gap-4 items-center">
+        <div className="w-full @lg:w-1/2 px-10 @lg:px-0">
           <Avatar className="w-full h-auto aspect-square rounded-2xl">
             <AvatarImage src={shopItem.thumbnail} />
             <AvatarFallback>{shopItem.name.split(".")[0]}</AvatarFallback>
           </Avatar>
         </div>
-        <div className="w-full sm:w-1/2 space-y-4">
+        <div className="w-full @lg:w-1/2 space-y-4">
           <h1 className="text-4xl font-bold">{shopItem.name}</h1>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -66,6 +67,12 @@ function RouteComponent() {
                 <p className="text-xl font-bold">{chain?.name}</p>
               </div>
             </div>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" className="w-full">
+              Chat to Seller
+            </Button>
+            <Button className="w-full">Buy🚀</Button>
           </div>
         </div>
       </div>
