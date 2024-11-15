@@ -38,6 +38,7 @@ const twitterUserAddress = account.address;
 
 export async function setupRequestProveButton(element: HTMLButtonElement) {
   element.addEventListener("click", async () => {
+    console.log("Requesting proof...");
     const provider = createExtensionWebProofProvider();
     const webProof = await provider.getWebProof({
       proverCallCommitment: {
@@ -73,6 +74,7 @@ export const setupVProverButton = (element: HTMLButtonElement) => {
       tls_proof: context.webProof,
       notary_pub_key: notaryPubKey,
     };
+    console.log(webProof);
     const vlayer = createVlayerClient({
       url: proverUrl,
     });
