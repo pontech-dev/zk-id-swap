@@ -12,10 +12,10 @@ export const useShopItems = () => {
     return query;
 };
 
-export const useShopItem = (id: string) => {
+export const useShopItem = (chainId: number, id: string) => {
     const query = useQuery({
-        queryKey: ["shopItem", id],
-        queryFn: () => shopItems.find((item) => item.id === id),
+        queryKey: ["shopItem", chainId, id],
+        queryFn: () => shopItems.find((item) => item.id === id && item.chainId === chainId),
     });
 
     return query;

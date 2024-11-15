@@ -5,7 +5,7 @@ import { Twitter } from "./icons/twitter";
 import { Link } from "@tanstack/react-router";
 import { formatShopItemPrice } from "@/lib/format";
 import { useChains } from "wagmi";
-import { CHAIN_IMAGES, getChainImage } from "@/constants";
+import { getChainImage } from "@/constants";
 
 export const ShopItemCard: FC<{
   item: ShopItem;
@@ -20,7 +20,7 @@ export const ShopItemCard: FC<{
       className="relative flex flex-col gap-2 border p-4 rounded-lg shadow-sm transition-colors hover:bg-muted/50"
     >
       <div className="flex justify-center">
-        <Avatar className="w-24 h-24">
+        <Avatar className="size-28 sm:size-24">
           <AvatarImage src={item.thumbnail} alt={item.name} />
           <AvatarFallback>{item.name.slice(0, 2)}</AvatarFallback>
         </Avatar>

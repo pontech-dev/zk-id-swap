@@ -20,7 +20,10 @@ function Index() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {shopItems.data?.pages.map((page) =>
           page.map((item) => (
-            <ShopItemCard item={item} href={`/shop/${item.id}`} />
+            <ShopItemCard
+              item={item}
+              href={`/shop/${item.chainId}-${item.id}`}
+            />
           ))
         )}
       </div>
