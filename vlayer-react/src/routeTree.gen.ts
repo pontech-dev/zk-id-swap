@@ -14,7 +14,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as NewImport } from './routes/new'
+import { Route as ChatIndexImport } from './routes/chat/index'
 import { Route as ShopItemIdImport } from './routes/shop/$itemId'
+import { Route as ChatAspectImport } from './routes/chat/aspect'
 
 // Create Virtual Routes
 
@@ -34,9 +36,21 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ShopItemIdRoute = ShopItemIdImport.update({
   id: '/shop/$itemId',
   path: '/shop/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatAspectRoute = ChatAspectImport.update({
+  id: '/chat/aspect',
+  path: '/chat/aspect',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,11 +72,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewImport
       parentRoute: typeof rootRoute
     }
+    '/chat/aspect': {
+      id: '/chat/aspect'
+      path: '/chat/aspect'
+      fullPath: '/chat/aspect'
+      preLoaderRoute: typeof ChatAspectImport
+      parentRoute: typeof rootRoute
+    }
     '/shop/$itemId': {
       id: '/shop/$itemId'
       path: '/shop/$itemId'
       fullPath: '/shop/$itemId'
       preLoaderRoute: typeof ShopItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -73,41 +101,51 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/new': typeof NewRoute
+  '/chat/aspect': typeof ChatAspectRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/chat': typeof ChatIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/new': typeof NewRoute
+  '/chat/aspect': typeof ChatAspectRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/chat': typeof ChatIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/new': typeof NewRoute
+  '/chat/aspect': typeof ChatAspectRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/chat/': typeof ChatIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/new' | '/shop/$itemId'
+  fullPaths: '/' | '/new' | '/chat/aspect' | '/shop/$itemId' | '/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/new' | '/shop/$itemId'
-  id: '__root__' | '/' | '/new' | '/shop/$itemId'
+  to: '/' | '/new' | '/chat/aspect' | '/shop/$itemId' | '/chat'
+  id: '__root__' | '/' | '/new' | '/chat/aspect' | '/shop/$itemId' | '/chat/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   NewRoute: typeof NewRoute
+  ChatAspectRoute: typeof ChatAspectRoute
   ShopItemIdRoute: typeof ShopItemIdRoute
+  ChatIndexRoute: typeof ChatIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   NewRoute: NewRoute,
+  ChatAspectRoute: ChatAspectRoute,
   ShopItemIdRoute: ShopItemIdRoute,
+  ChatIndexRoute: ChatIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -122,7 +160,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/new",
-        "/shop/$itemId"
+        "/chat/aspect",
+        "/shop/$itemId",
+        "/chat/"
       ]
     },
     "/": {
@@ -131,8 +171,14 @@ export const routeTree = rootRoute
     "/new": {
       "filePath": "new.tsx"
     },
+    "/chat/aspect": {
+      "filePath": "chat/aspect.tsx"
+    },
     "/shop/$itemId": {
       "filePath": "shop/$itemId.tsx"
+    },
+    "/chat/": {
+      "filePath": "chat/index.tsx"
     }
   }
 }

@@ -10,6 +10,8 @@ export const usePushClient = () => {
         queryKey: ["push-client", wallet.data],
         queryFn: async () => {
             if (!wallet.data) return null;
+
+            PushAPI.initialize(wallet.data)
             return PushAPI.initialize(wallet.data)
         }
     })
@@ -35,8 +37,13 @@ export const useChatRequests = () => {
     const chatRequests = useQuery({
         queryKey: ["chat-requests", pushClient.data],
         queryFn: async () => {
-            if (!pushClient.data) return [];
-            return pushClient.data.chat.list("REQUESTS")
+            try {
+                if (!pushClient.data) return [];
+                return pushClient.data.chat.list("REQUESTS")
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
         }
     })
 
@@ -50,8 +57,13 @@ export const useChatHistory = (
     const chatHistory = useQuery({
         queryKey: ["chat-history", pushClient.data, target],
         queryFn: async () => {
-            if (!pushClient.data) return [];
-            return pushClient.data.chat.history(target)
+            try {
+                if (!pushClient.data) return [];
+                return pushClient.data.chat.history(target)
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
         }
     })
 

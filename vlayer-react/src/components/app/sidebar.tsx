@@ -27,7 +27,7 @@ const menuItems = [
   {
     icon: MessageSquareText,
     label: "Messages",
-    href: "/messages",
+    href: "/chat",
   },
   {
     icon: SquarePlus,
