@@ -3,6 +3,29 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import './index.css'
 import { routeTree } from './routeTree.gen'
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import {
+  sepolia
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
+
+const config = getDefaultConfig({
+  appName: 'ZK ID Swap',
+  projectId: 'adb327da1f8267bf5019de44564b1372',
+  chains: [sepolia],
+  ssr: false,
+});
+
+const queryClient = new QueryClient();
+
 
 const router = createRouter({ routeTree })
 
@@ -19,7 +42,13 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>,
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <RouterProvider router={router} />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </StrictMode >,
   )
 }
