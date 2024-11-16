@@ -1,30 +1,49 @@
-import { useWalletClient } from "wagmi";
-import { PushAPI, } from "@pushprotocol/restapi"
+// import { useWalletClient } from "wagmi";
+import { PushAPI, CONSTANTS } from "@pushprotocol/restapi"
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useCallback, } from "react";
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { getSigner } from '@dynamic-labs/ethers-v6';
 
 let _pushClient: Promise<PushAPI> | null = null;
 
 export const usePushClient = () => {
-    const wallet = useWalletClient();
+    // const wallet = useWalletClient();
+    const { primaryWallet } = useDynamicContext();
+
+    // const pushClient = useQuery({
+    //     queryKey: ["push-client", wallet.data],
+    //     queryFn: async () => {
+    //         if (!wallet.data || !_pushClient) return null;
+    //         const client = await _pushClient;
+
+    //         return client;
+    //     }
+    // })
     const pushClient = useQuery({
-        queryKey: ["push-client", wallet.data],
-        queryFn: async () => {
-            if (!wallet.data || !_pushClient) return null;
-            const client = await _pushClient;
+      queryKey: ["push-client", primaryWallet?.address],
+      queryFn: async () => {
+          if (!primaryWallet || !_pushClient) return null;
+          const client = await _pushClient;
+          return client;
+      },
+      enabled: !!primaryWallet,
+    });
 
-            return client;
-        }
-    })
-
-
-
+    // const initializePushClient = useCallback(async () => {
+    //     if (!wallet.data) return;
+    //     _pushClient = PushAPI.initialize(wallet.data);
+    //     pushClient.refetch();
+    // }, [wallet.data, pushClient])
     const initializePushClient = useCallback(async () => {
-        if (!wallet.data) return;
-        _pushClient = PushAPI.initialize(wallet.data);
-        pushClient.refetch();
-    }, [wallet.data, pushClient])
+      if (!primaryWallet) return;
+      const signer = await getSigner(primaryWallet);
+      _pushClient = PushAPI.initialize(signer, {
+        env: CONSTANTS.ENV.STAGING,
+      });
+      pushClient.refetch();
+    }, [primaryWallet, pushClient]);
 
     return { pushClient, initializePushClient };
 };
