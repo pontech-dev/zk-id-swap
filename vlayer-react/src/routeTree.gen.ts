@@ -14,7 +14,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as NewImport } from './routes/new'
+import { Route as ManageIndexImport } from './routes/manage/index'
 import { Route as ShopItemIdImport } from './routes/shop/$itemId'
+import { Route as ManageItemIdImport } from './routes/manage/$itemId'
 import { Route as ChatChatImport } from './routes/chat/_chat'
 import { Route as ChatChatIndexImport } from './routes/chat/_chat.index'
 import { Route as ChatChatTargetImport } from './routes/chat/_chat.$target'
@@ -44,9 +46,21 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const ManageIndexRoute = ManageIndexImport.update({
+  id: '/manage/',
+  path: '/manage/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ShopItemIdRoute = ShopItemIdImport.update({
   id: '/shop/$itemId',
   path: '/shop/$itemId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ManageItemIdRoute = ManageItemIdImport.update({
+  id: '/manage/$itemId',
+  path: '/manage/$itemId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -99,11 +113,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatChatImport
       parentRoute: typeof ChatRoute
     }
+    '/manage/$itemId': {
+      id: '/manage/$itemId'
+      path: '/manage/$itemId'
+      fullPath: '/manage/$itemId'
+      preLoaderRoute: typeof ManageItemIdImport
+      parentRoute: typeof rootRoute
+    }
     '/shop/$itemId': {
       id: '/shop/$itemId'
       path: '/shop/$itemId'
       fullPath: '/shop/$itemId'
       preLoaderRoute: typeof ShopItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/manage/': {
+      id: '/manage/'
+      path: '/manage'
+      fullPath: '/manage'
+      preLoaderRoute: typeof ManageIndexImport
       parentRoute: typeof rootRoute
     }
     '/chat/_chat/$target': {
@@ -153,7 +181,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/new': typeof NewRoute
   '/chat': typeof ChatChatRouteWithChildren
+  '/manage/$itemId': typeof ManageItemIdRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/manage': typeof ManageIndexRoute
   '/chat/$target': typeof ChatChatTargetRoute
   '/chat/': typeof ChatChatIndexRoute
 }
@@ -162,7 +192,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/new': typeof NewRoute
   '/chat': typeof ChatChatIndexRoute
+  '/manage/$itemId': typeof ManageItemIdRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/manage': typeof ManageIndexRoute
   '/chat/$target': typeof ChatChatTargetRoute
 }
 
@@ -172,7 +204,9 @@ export interface FileRoutesById {
   '/new': typeof NewRoute
   '/chat': typeof ChatRouteWithChildren
   '/chat/_chat': typeof ChatChatRouteWithChildren
+  '/manage/$itemId': typeof ManageItemIdRoute
   '/shop/$itemId': typeof ShopItemIdRoute
+  '/manage/': typeof ManageIndexRoute
   '/chat/_chat/$target': typeof ChatChatTargetRoute
   '/chat/_chat/': typeof ChatChatIndexRoute
 }
@@ -183,18 +217,29 @@ export interface FileRouteTypes {
     | '/'
     | '/new'
     | '/chat'
+    | '/manage/$itemId'
     | '/shop/$itemId'
+    | '/manage'
     | '/chat/$target'
     | '/chat/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/new' | '/chat' | '/shop/$itemId' | '/chat/$target'
+  to:
+    | '/'
+    | '/new'
+    | '/chat'
+    | '/manage/$itemId'
+    | '/shop/$itemId'
+    | '/manage'
+    | '/chat/$target'
   id:
     | '__root__'
     | '/'
     | '/new'
     | '/chat'
     | '/chat/_chat'
+    | '/manage/$itemId'
     | '/shop/$itemId'
+    | '/manage/'
     | '/chat/_chat/$target'
     | '/chat/_chat/'
   fileRoutesById: FileRoutesById
@@ -204,14 +249,18 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   NewRoute: typeof NewRoute
   ChatRoute: typeof ChatRouteWithChildren
+  ManageItemIdRoute: typeof ManageItemIdRoute
   ShopItemIdRoute: typeof ShopItemIdRoute
+  ManageIndexRoute: typeof ManageIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   NewRoute: NewRoute,
   ChatRoute: ChatRouteWithChildren,
+  ManageItemIdRoute: ManageItemIdRoute,
   ShopItemIdRoute: ShopItemIdRoute,
+  ManageIndexRoute: ManageIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -227,7 +276,9 @@ export const routeTree = rootRoute
         "/",
         "/new",
         "/chat",
-        "/shop/$itemId"
+        "/manage/$itemId",
+        "/shop/$itemId",
+        "/manage/"
       ]
     },
     "/": {
@@ -250,8 +301,14 @@ export const routeTree = rootRoute
         "/chat/_chat/"
       ]
     },
+    "/manage/$itemId": {
+      "filePath": "manage/$itemId.tsx"
+    },
     "/shop/$itemId": {
       "filePath": "shop/$itemId.tsx"
+    },
+    "/manage/": {
+      "filePath": "manage/index.tsx"
     },
     "/chat/_chat/$target": {
       "filePath": "chat/_chat.$target.tsx",

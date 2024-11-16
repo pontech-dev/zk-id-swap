@@ -12,18 +12,23 @@ export type ShopItemPrice = {
 }
 
 export type ShopItem = {
-    type: "twitter"
-    id: string;
-    chainId: number;
-    /** `@hogehoge` */
-    providerId: `@${string}`;
-    name: string;
-    /** URL to the image */
-    thumbnail: string;
-    price: ShopItemPrice
-    seller: Address
-    metadata: {
-        followers: number;
-        tweets: number;
-    }
+  type: "twitter";
+  id: string;
+  chainId: number;
+  /** `@hogehoge` */
+  providerId: `@${string}`;
+  name: string;
+  description: string;
+  /** URL to the image */
+  thumbnail: string;
+  bannerImg: string;
+  price: ShopItemPrice;
+  seller: Address;
+  metadata: {
+    followers: number;
+    tweets: number;
+  };
+  status: "selling" | "trading" | "sold";
+  createdDate: Date;
+  createdDatetime: string;
 };
