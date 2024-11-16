@@ -17,8 +17,8 @@ import { IFeeds } from "@pushprotocol/restapi";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-// import { useAccount } from "wagmi";
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { useAccount } from "wagmi";
+import { Address } from "viem";
 
 export const Route = createFileRoute("/chat/_chat")({
   component: RouteComponent,
@@ -26,20 +26,18 @@ export const Route = createFileRoute("/chat/_chat")({
 
 function RouteComponent() {
   const router = useRouter();
-  const { primaryWallet } = useDynamicContext();
-  // const account = useAccount();
+  const account = useAccount();
   const { initializePushClient, pushClient } = usePushClient();
   const chatRequests = useChatRequests();
   const chatList = useChatList();
-  const { acceptRequest, rejectRequest } = useChatActions();
+  const { acceptRequest, rejectRequest, sendMessage } = useChatActions();
 
-  if (!primaryWallet)
+  if (!account.isConnected)
     return (
       <div className="flex flex-1 justify-center items-center">
         Please connect your wallet
       </div>
     );
-
 
   if (!pushClient.data)
     return (
@@ -50,12 +48,24 @@ function RouteComponent() {
 
   console.log("chatRequests", chatRequests.data);
   console.log("chatList", chatList.data);
+
+  const handleDebugSendMessage = async () => {
+    const target = prompt("Enter target");
+    if (!target) return;
+    await sendMessage(target as Address, "Hello, world!");
+
+    chatRequests.refetch();
+    chatList.refetch();
+  };
   const handleAcceptChatRequest = (feed: IFeeds) => {
     const target = parseTarget(feed);
     acceptRequest(target);
     chatRequests.refetch();
     chatList.refetch();
-    router.navigate({ to: "/chat/$target", params: { target } });
+    router.navigate({
+      to: "/chat/$target",
+      params: { target: feed.chatId as string },
+    });
   };
   const handleRejectChatRequest = (feed: IFeeds) => {
     const target = parseTarget(feed);
@@ -67,6 +77,7 @@ function RouteComponent() {
     <div className="flex flex-1">
       <div className="w-1/2 max-w-xs h-full border-r">
         <SidebarContent>
+          <Button onClick={handleDebugSendMessage}>Debug Send Message</Button>
           {chatRequests.data && chatRequests.data.length > 0 && (
             <SidebarGroup>
               <SidebarGroupLabel>Chat Requests</SidebarGroupLabel>
@@ -120,7 +131,7 @@ function RouteComponent() {
                   <Link
                     key={chat.chatId}
                     to="/chat/$target"
-                    params={{ target: parseTarget(chat) }}
+                    params={{ target: chat.chatId as string }}
                     className="p-2 border rounded-lg flex flex-col transition-colors hover:bg-muted"
                   >
                     <div className="flex items-center gap-2 mb-1">
@@ -141,9 +152,7 @@ function RouteComponent() {
           )}
         </SidebarContent>
       </div>
-      <div className="flex-1">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }
