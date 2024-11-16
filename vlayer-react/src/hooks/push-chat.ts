@@ -2,40 +2,51 @@ import { useWalletClient } from "wagmi";
 import { PushAPI, } from "@pushprotocol/restapi"
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-import { useCallback } from "react";
+import { useCallback, } from "react";
+
+let _pushClient: Promise<PushAPI> | null = null;
 
 export const usePushClient = () => {
     const wallet = useWalletClient();
     const pushClient = useQuery({
         queryKey: ["push-client", wallet.data],
         queryFn: async () => {
-            if (!wallet.data) return null;
+            if (!wallet.data || !_pushClient) return null;
+            const client = await _pushClient;
 
-            PushAPI.initialize(wallet.data)
-            return PushAPI.initialize(wallet.data)
+            return client;
         }
     })
 
-    return pushClient;
+
+
+    const initializePushClient = useCallback(async () => {
+        if (!wallet.data) return;
+        _pushClient = PushAPI.initialize(wallet.data);
+        pushClient.refetch();
+    }, [wallet.data, pushClient])
+
+    return { pushClient, initializePushClient };
 };
 
 export const useChatList = () => {
-    const pushClient = usePushClient();
+    const { pushClient } = usePushClient();
     const chatList = useQuery({
-        queryKey: ["chat-list", pushClient.data],
+        queryKey: ["chat-list"],
         queryFn: async () => {
             if (!pushClient.data) return [];
             return pushClient.data.chat.list("CHATS")
-        }
+        },
+        enabled: !!pushClient.data
     })
 
     return chatList;
 }
 
 export const useChatRequests = () => {
-    const pushClient = usePushClient();
+    const { pushClient } = usePushClient();
     const chatRequests = useQuery({
-        queryKey: ["chat-requests", pushClient.data],
+        queryKey: ["chat-requests"],
         queryFn: async () => {
             try {
                 if (!pushClient.data) return [];
@@ -44,7 +55,8 @@ export const useChatRequests = () => {
                 console.error(error);
                 return [];
             }
-        }
+        },
+        enabled: !!pushClient.data
     })
 
     return chatRequests;
@@ -53,7 +65,7 @@ export const useChatRequests = () => {
 export const useChatHistory = (
     target: Address
 ) => {
-    const pushClient = usePushClient();
+    const { pushClient } = usePushClient();
     const chatHistory = useQuery({
         queryKey: ["chat-history", pushClient.data, target],
         queryFn: async () => {
@@ -71,7 +83,7 @@ export const useChatHistory = (
 }
 
 export const useChatActions = () => {
-    const pushClient = usePushClient();
+    const { pushClient } = usePushClient();
 
     const sendMessage = useCallback(async (target: Address, message: string) => {
         if (!pushClient.data) return;

@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import {
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+} from "@/components/ui/sidebar";
+import {
   useChatActions,
   useChatList,
   useChatRequests,
+  usePushClient,
 } from "@/hooks/push-chat";
+import { parseTarget, pickContent } from "@/lib/push";
+import { formatDate } from "@/lib/utils";
+import { IFeeds } from "@pushprotocol/restapi";
+import { Link, useRouter } from "@tanstack/react-router";
+import { Outlet } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAccount } from "wagmi";
 
@@ -12,27 +23,119 @@ export const Route = createFileRoute("/chat/")({
 });
 
 function RouteComponent() {
+  const router = useRouter();
   const account = useAccount();
-  const { data: chatRequests } = useChatRequests();
-  const { data: chatList } = useChatList();
-  const { sendMessage } = useChatActions();
+  const { initializePushClient, pushClient } = usePushClient();
+  const chatRequests = useChatRequests();
+  const chatList = useChatList();
+  const { acceptRequest, rejectRequest } = useChatActions();
 
   if (!account.isConnected)
-    return <div className="p-4">Please connect your wallet</div>;
+    return (
+      <div className="flex flex-1 justify-center items-center">
+        Please connect your wallet
+      </div>
+    );
 
-  console.log(chatRequests);
-  console.log(chatList);
+  if (!pushClient.data)
+    return (
+      <div className="flex flex-1 justify-center items-center">
+        <Button onClick={initializePushClient}>Initialize Push Client</Button>
+      </div>
+    );
 
+  console.log("chatRequests", chatRequests.data);
+  console.log("chatList", chatList.data);
+  const handleAcceptChatRequest = (feed: IFeeds) => {
+    const target = parseTarget(feed);
+    acceptRequest(target);
+    chatRequests.refetch();
+    chatList.refetch();
+    router.navigate({ to: "/chat/$target", params: { target } });
+  };
+  const handleRejectChatRequest = (feed: IFeeds) => {
+    const target = parseTarget(feed);
+    rejectRequest(target);
+    chatRequests.refetch();
+    chatList.refetch();
+  };
   return (
-    <div>
-      <h1>Chat</h1>
-      <Button
-        onClick={() =>
-          sendMessage("0xB9825fcB2aFD2ad9047a78b2422a5D888b2E54DA", "Hello")
-        }
-      >
-        Send Message
-      </Button>
+    <div className="flex flex-1">
+      <div className="w-1/2 h-full border-r">
+        <SidebarContent>
+          {chatRequests.data && chatRequests.data.length > 0 && (
+            <SidebarGroup>
+              <SidebarGroupLabel>Chat Requests</SidebarGroupLabel>
+              {chatRequests.data.map((chatRequest) => (
+                <div
+                  key={chatRequest.chatId}
+                  className="p-2 border rounded-lg flex flex-col"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="text-sm font-medium truncate max-w-24">
+                      {parseTarget(chatRequest)}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {formatDate(chatRequest.msg.timestamp ?? 0)}
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    {pickContent(chatRequest)}
+                  </div>
+                  <div className="flex justify-start items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="h-6 w-16"
+                      onClick={() => handleAcceptChatRequest(chatRequest)}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="h-6 w-16"
+                      onClick={() => handleRejectChatRequest(chatRequest)}
+                    >
+                      Reject
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </SidebarGroup>
+          )}
+        </SidebarContent>
+        <SidebarContent>
+          {chatList.data && chatList.data.length > 0 && (
+            <SidebarGroup>
+              <SidebarGroupLabel>Chat List</SidebarGroupLabel>
+              {chatList.data.map((chat) => (
+                <Link
+                  key={chat.chatId}
+                  to="/chat/$target"
+                  params={{ target: parseTarget(chat) }}
+                  className="p-2 border rounded-lg flex flex-col transition-colors hover:bg-muted"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="text-sm font-medium truncate max-w-24">
+                      {parseTarget(chat)}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {formatDate(chat.msg.timestamp ?? 0)}
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    {pickContent(chat)}
+                  </div>
+                </Link>
+              ))}
+            </SidebarGroup>
+          )}
+        </SidebarContent>
+      </div>
+      <div className="w-1/2">
+        <Outlet />
+      </div>
     </div>
   );
 }
