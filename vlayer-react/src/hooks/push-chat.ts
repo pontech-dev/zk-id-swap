@@ -1,5 +1,5 @@
 import { useWalletClient } from "wagmi";
-import { CONSTANTS, PushAPI } from "@pushprotocol/restapi";
+import { CONSTANTS, IMessageIPFSWithCID, PushAPI } from "@pushprotocol/restapi";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useCallback } from "react";
@@ -21,7 +21,9 @@ export const usePushClient = () => {
 
   const initializePushClient = useCallback(async () => {
     if (!wallet.data) return;
-    _pushClient = PushAPI.initialize(wallet.data, { env: CONSTANTS.ENV.DEV });
+    _pushClient = PushAPI.initialize(wallet.data, {
+      env: CONSTANTS.ENV.STAGING,
+    });
     pushClient.refetch();
   }, [wallet.data, pushClient]);
 
@@ -69,8 +71,8 @@ export const useChatHistory = (target: string) => {
       try {
         if (!pushClient.data) return [];
         const history = await pushClient.data.chat.history(target);
-        console.log("history", history);
-        return history;
+
+        return history as IMessageIPFSWithCID[];
       } catch (error) {
         console.error(error);
         return [];
@@ -88,6 +90,7 @@ export const useChatActions = () => {
   const sendMessage = useCallback(
     async (target: Address, message: string) => {
       if (!pushClient.data) return;
+      console.log("sending message", target, message);
       return pushClient.data.chat.send(target, {
         content: message,
         type: "Text",

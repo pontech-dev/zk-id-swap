@@ -12,11 +12,11 @@ import {
   usePushClient,
 } from "@/hooks/push-chat";
 import { parseTarget, pickContent } from "@/lib/push";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { IFeeds } from "@pushprotocol/restapi";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLocation } from "@tanstack/react-router";
 import { useAccount } from "wagmi";
 import { Address } from "viem";
 
@@ -25,6 +25,7 @@ export const Route = createFileRoute("/chat/_chat")({
 });
 
 function RouteComponent() {
+  const location = useLocation();
   const router = useRouter();
   const account = useAccount();
   const { initializePushClient, pushClient } = usePushClient();
@@ -73,11 +74,18 @@ function RouteComponent() {
     chatRequests.refetch();
     chatList.refetch();
   };
+
+  console.log("location.pathname", location.pathname);
   return (
-    <div className="flex flex-1">
-      <div className="w-1/2 max-w-xs h-full border-r">
+    <div className="flex flex-1 w-full max-w-screen-lg mx-auto">
+      <div
+        className={cn(
+          "w-full sm:w-1/2 sm:max-w-xs h-full sm:border-r",
+          location.pathname !== "/chat" && "hidden sm:block"
+        )}
+      >
         <SidebarContent>
-          <Button onClick={handleDebugSendMessage}>Debug Send Message</Button>
+          {/* <Button onClick={handleDebugSendMessage}>Debug Send Message</Button> */}
           {chatRequests.data && chatRequests.data.length > 0 && (
             <SidebarGroup>
               <SidebarGroupLabel>Chat Requests</SidebarGroupLabel>
@@ -152,7 +160,14 @@ function RouteComponent() {
           )}
         </SidebarContent>
       </div>
-      <Outlet />
+      <div
+        className={cn(
+          "flex-1 hidden sm:flex flex-col",
+          location.pathname !== "/chat" && "flex"
+        )}
+      >
+        <Outlet />
+      </div>
     </div>
   );
 }
