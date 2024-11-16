@@ -2,12 +2,13 @@ import { useWalletClient } from "wagmi";
 import { CONSTANTS, IMessageIPFSWithCID, PushAPI } from "@pushprotocol/restapi";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 let _pushClient: Promise<PushAPI> | null = null;
 
 export const usePushClient = () => {
   const wallet = useWalletClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const pushClient = useQuery({
     queryKey: ["push-client", wallet.data],
@@ -20,14 +21,23 @@ export const usePushClient = () => {
   });
 
   const initializePushClient = useCallback(async () => {
-    if (!wallet.data) return;
-    _pushClient = PushAPI.initialize(wallet.data, {
-      env: CONSTANTS.ENV.STAGING,
-    });
-    pushClient.refetch();
+    try {
+      if (!wallet.data) return;
+      setIsLoading(true);
+      _pushClient = PushAPI.initialize(wallet.data, {
+        env: CONSTANTS.ENV.STAGING,
+      });
+      pushClient.refetch();
+
+      await _pushClient;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [wallet.data, pushClient]);
 
-  return { pushClient, initializePushClient };
+  return { pushClient, initializePushClient, isLoading };
 };
 
 export const useChatList = () => {

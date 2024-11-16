@@ -19,6 +19,7 @@ import { Outlet } from "@tanstack/react-router";
 import { createFileRoute, useLocation } from "@tanstack/react-router";
 import { useAccount } from "wagmi";
 import { Address } from "viem";
+import { useState } from "react";
 
 export const Route = createFileRoute("/chat/_chat")({
   component: RouteComponent,
@@ -28,10 +29,16 @@ function RouteComponent() {
   const location = useLocation();
   const router = useRouter();
   const account = useAccount();
-  const { initializePushClient, pushClient } = usePushClient();
+  const {
+    initializePushClient,
+    isLoading: isLoadingPushClient,
+    pushClient,
+  } = usePushClient();
   const chatRequests = useChatRequests();
   const chatList = useChatList();
   const { acceptRequest, rejectRequest, sendMessage } = useChatActions();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!account.isConnected)
     return (
@@ -43,7 +50,9 @@ function RouteComponent() {
   if (!pushClient.data)
     return (
       <div className="flex flex-1 justify-center items-center">
-        <Button onClick={initializePushClient}>Initialize Push Client</Button>
+        <Button onClick={initializePushClient} disabled={isLoadingPushClient}>
+          Initialize Push Client
+        </Button>
       </div>
     );
 
@@ -58,24 +67,37 @@ function RouteComponent() {
     chatRequests.refetch();
     chatList.refetch();
   };
-  const handleAcceptChatRequest = (feed: IFeeds) => {
-    const target = parseTarget(feed);
-    acceptRequest(target);
-    chatRequests.refetch();
-    chatList.refetch();
-    router.navigate({
-      to: "/chat/$target",
-      params: { target: feed.chatId as string },
-    });
+  const handleAcceptChatRequest = async (feed: IFeeds) => {
+    try {
+      setIsLoading(true);
+      const target = parseTarget(feed);
+      acceptRequest(target);
+      chatRequests.refetch();
+      chatList.refetch();
+      router.navigate({
+        to: "/chat/$target",
+        params: { target: feed.chatId as string },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
-  const handleRejectChatRequest = (feed: IFeeds) => {
-    const target = parseTarget(feed);
-    rejectRequest(target);
-    chatRequests.refetch();
-    chatList.refetch();
+  const handleRejectChatRequest = async (feed: IFeeds) => {
+    try {
+      setIsLoading(true);
+      const target = parseTarget(feed);
+      rejectRequest(target);
+      chatRequests.refetch();
+      chatList.refetch();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  console.log("location.pathname", location.pathname);
   return (
     <div className="flex flex-1 w-full max-w-screen-lg mx-auto">
       <div
@@ -111,6 +133,7 @@ function RouteComponent() {
                         size="sm"
                         variant="default"
                         className="h-6 w-16"
+                        disabled={isLoading}
                         onClick={() => handleAcceptChatRequest(chatRequest)}
                       >
                         Accept
@@ -119,6 +142,7 @@ function RouteComponent() {
                         size="sm"
                         variant="secondary"
                         className="h-6 w-16"
+                        disabled={isLoading}
                         onClick={() => handleRejectChatRequest(chatRequest)}
                       >
                         Reject

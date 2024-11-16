@@ -6,7 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { parseMessageContent } from "@/lib/push";
 import { useAccount } from "wagmi";
 import { cn } from "@/lib/utils";
-import { ArrowLeftIcon, SendIcon } from "lucide-react";
+import { ArrowLeftIcon, RefreshCcwIcon, SendIcon } from "lucide-react";
 import { useState } from "react";
 import { Address } from "viem";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -34,6 +34,8 @@ function RouteComponent() {
     history.refetch();
   };
 
+  console.log("history", history.data);
+
   return (
     <div className="flex-1 flex flex-col p-2 gap-4">
       <div className="flex p-2 gap-2 items-center">
@@ -50,6 +52,16 @@ function RouteComponent() {
         <div className="text-base font-bold max-w-64 truncate">
           {chat && parseTarget(chat)}
         </div>
+        <div className="flex-1 flex justify-end" />
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => history.refetch()}
+          disabled={history.isFetching}
+          className={cn("flex-shrink-0 ", history.isFetching && "animate-spin")}
+        >
+          <RefreshCcwIcon />
+        </Button>
       </div>
       <div className="flex-1 flex flex-col-reverse gap-2">
         {history.data?.map((message) => (

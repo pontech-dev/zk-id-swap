@@ -10,7 +10,7 @@ export const pickContent = (feed: IFeeds): string => {
 };
 
 export const parseTarget = (feed: IFeeds): Address => {
-  return feed.msg.fromDID.split(":")[1] as Address;
+  return feed.did.split(":")[1] as Address;
 };
 
 export const parseMessageId = (message: IMessageIPFSWithCID): string => {
