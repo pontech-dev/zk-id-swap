@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-export default function Component() {
+export default function MoonPayButton() {
   const [sdkLoaded, setSdkLoaded] = useState(false)
 
   useEffect(() => {
