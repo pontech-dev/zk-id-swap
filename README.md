@@ -1,66 +1,9 @@
-## Foundry
+## SmartContract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+| Chain                   | Prover Contract                                                                                                             | ZkVerifiedEscrow Contract                                                                                                       |
+| :----------------------- | --------------------------------------------------------------------------------------------------------------------------: | -----------------------------------------------------------------------------------------------------------------------: |
+| Ethereum Sepolia         | [0xd9a9364b3c1031685e68b821ceeb48ebc86685a0](https://eth-sepolia.blockscout.com/address/0xD9A9364B3c1031685e68b821cEEB48eBc86685a0) | [0x9c450d72fecd4700e7a08d7ce0c60541a7aa6bd9](https://eth-sepolia.blockscout.com/address/0x9c450d72fecd4700e7a08d7ce0c60541a7aa6bd9)                         |
+| Base Sepolia           | [0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c](https://base-sepolia.blockscout.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c) | [0x5420a342f6b74c75b67d2fcc4a2b8691c7627433](https://base-sepolia.blockscout.com/address/0x5420a342f6b74c75b67d2fcc4a2b8691c7627433)                         |
+| Scroll Sepolia        | [0xdd039a26c36ad16c071deb8a20c32805af48f5a2f210fc2c7476508f0bf2446b](https://sepolia.scrollscan.com/tx/0xdd039a26c36ad16c071deb8a20c32805af48f5a2f210fc2c7476508f0bf2446b) | [0xExampleVerifierRootStock](https://explorer.testnet.rootstock.io/address/0xExampleVerifierRootStock)                 |
+| Polygon Amoy            | [0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c](https://amoy.polygonscan.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c) | [0x5420a342f6b74c75b67d2fcc4a2b8691c7627433](https://amoy.polygonscan.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c)                           |
 
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
