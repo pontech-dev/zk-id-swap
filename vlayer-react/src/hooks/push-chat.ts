@@ -59,6 +59,8 @@ export const useChatList = () => {
         enabled: !!pushClient.data
     })
 
+    console.log({ chatList });
+
     return chatList;
 }
 
@@ -84,19 +86,23 @@ export const useChatRequests = () => {
 export const useChatHistory = (
     target: Address
 ) => {
+    console.log({ target });
     const { pushClient } = usePushClient();
     const chatHistory = useQuery({
-        queryKey: ["chat-history", pushClient.data, target],
-        queryFn: async () => {
-            try {
-                if (!pushClient.data) return [];
-                return pushClient.data.chat.history(target)
-            } catch (error) {
-                console.error(error);
-                return [];
-            }
+      queryKey: ["chat-history", !!pushClient.data, target],
+      queryFn: async () => {
+        try {
+          if (!pushClient.data) return [];
+          return pushClient.data.chat.history(target);
+        } catch (error) {
+          console.error(error);
+          return [];
         }
-    })
+      },
+      enabled: !!pushClient.data && !!target,
+    });
+
+    console.log(chatHistory);
 
     return chatHistory;
 }

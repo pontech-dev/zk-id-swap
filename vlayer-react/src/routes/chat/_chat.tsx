@@ -120,7 +120,7 @@ function RouteComponent() {
                   <Link
                     key={chat.chatId}
                     to="/chat/$target"
-                    params={{ target: parseTarget(chat) }}
+                    params={{ target: chat.chatId }}
                     className="p-2 border rounded-lg flex flex-col transition-colors hover:bg-muted"
                   >
                     <div className="flex items-center gap-2 mb-1">

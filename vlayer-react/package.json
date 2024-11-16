@@ -16,6 +16,7 @@
     "@dynamic-labs/sdk-react-core": "^3.6.1",
     "@hookform/resolvers": "^3.9.1",
     "@pushprotocol/restapi": "^1.7.29",
+    "@pushprotocol/uiweb": "^1.7.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
