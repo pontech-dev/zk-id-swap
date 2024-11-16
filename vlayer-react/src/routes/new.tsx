@@ -22,6 +22,7 @@ import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
 import ZkVerifiedEscrow from "../../../out/ZkVerifiedEscrow.sol/ZkVerifiedEscrow";
 import { parseUnits, Contract } from "ethers";
+import USDCAbi from '../abi//usdc_abi.json';
 
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
@@ -202,6 +203,27 @@ function RouteComponent() {
     }
   }
 
+  async function approveUSDC() {
+    const tokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
+    const spender = import.meta.env.VITE_VERIFIER_ADDRESS;
+    const priceUsd = form.getValues("priceUsd");
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log({ amount});
+
+    try {
+      const result = await writeContractAsync({
+        address: tokenAddress,
+        abi: USDCAbi,
+        functionName: "approve",
+        args: [spender, amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Approval successful:", receipt);
+    } catch (error) {
+      console.error("Approval failed:", error);
+    }
+  }
+
   async function depositButton() {
     if (!provingResult) return;
     isDefined(provingResult, "Proving result is undefined");
@@ -218,8 +240,8 @@ function RouteComponent() {
       const result = await writeContractAsync({
         address: import.meta.env.VITE_VERIFIER_ADDRESS,
         abi: ZkVerifiedEscrow.abi,
-        functionName: "list",
-        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+        functionName: "deposit",
+        args: [provingResult[1], amount],
       });
       const receipt = await client.waitForTransactionReceipt({ hash: result });
       console.log("Transaction successful:", receipt);
@@ -241,6 +263,9 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={listIDButton}>
         List
+      </Button>
+      <Button className="mt-12" onClick={approveUSDC}>
+        Approve USDC
       </Button>
       <Button className="mt-12" onClick={depositButton}>
         Deposit
