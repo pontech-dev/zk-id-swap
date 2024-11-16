@@ -68,3 +68,10 @@ export const formatShopItemPrice = (
         : 0;
     return formatNumber(Number(value), type);
 };
+
+export const formatTwitterHandle = (handle: string): string => {
+  if (handle.startsWith("@")) {
+    return handle;
+  }
+  return `@${handle}`;
+}
