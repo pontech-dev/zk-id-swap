@@ -15,6 +15,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
+import { foundry } from "viem/chains";
+import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
+
+import {
+  createExtensionWebProofProvider,
+  expectUrl,
+  notarize,
+  startPage,
+} from "@vlayer/sdk/web_proof";
+
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
 });
@@ -47,10 +57,39 @@ function RouteComponent() {
     console.log(values);
   }
 
+  async function setupRequestProveButtont() {
+    const provider = createExtensionWebProofProvider();
+    const webProof = await provider.getWebProof({
+      proverCallCommitment: {
+        address: import.meta.env.VITE_PROVER_ADDRESS,
+        proverAbi: webProofProver.abi,
+        chainId: foundry.id,
+        functionName: "main",
+        commitmentArgs: ["0x"],
+      },
+      logoUrl: "http://twitterswap.com/logo.png",
+      steps: [
+        startPage("https://x.com/i/flow/login", "Go to x.com login page"),
+        expectUrl("https://x.com/home", "Log in"),
+        notarize(
+          "https://api.x.com/1.1/account/settings.json",
+          "GET",
+          "Generate Proof of Twitter profile"
+        ),
+      ],
+    });
+
+    console.log("WebProof generated!", webProof);
+  }
+
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Button className="mt-12" onClick={setupRequestProveButtont}>
+            Create Webproof of your X account
+          </Button>
+
           <div className="flex justify-cente">
             <Avatar className="size-24 bg-muted">
               <AvatarImage src={form.watch("profilePicture")} />
