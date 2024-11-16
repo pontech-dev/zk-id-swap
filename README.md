@@ -45,7 +45,6 @@ World ID adds an additional layer of security by verifying users' humanity, disc
 
 To be provided at a later date when ready.
 
-
 ## SmartContract
 
 | Chain                   | Prover Contract                                                                                                             | ZkVerifiedEscrow Contract                                                                                                       |
@@ -54,3 +53,48 @@ To be provided at a later date when ready.
 | Base Sepolia           | [0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c](https://base-sepolia.blockscout.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c) | [0x5420a342f6b74c75b67d2fcc4a2b8691c7627433](https://base-sepolia.blockscout.com/address/0x5420a342f6b74c75b67d2fcc4a2b8691c7627433)                         |
 | Scroll Sepolia        | [0xdd039a26c36ad16c071deb8a20c32805af48f5a2f210fc2c7476508f0bf2446b](https://sepolia.scrollscan.com/tx/0xdd039a26c36ad16c071deb8a20c32805af48f5a2f210fc2c7476508f0bf2446b) | [0xExampleVerifierRootStock](https://explorer.testnet.rootstock.io/address/0xExampleVerifierRootStock)                 |
 | Polygon Amoy            | [0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c](https://amoy.polygonscan.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c) | [0x5420a342f6b74c75b67d2fcc4a2b8691c7627433](https://amoy.polygonscan.com/address/0x1a0bbb6afabfefcdb3e4fcad452aba1380bd890c)                           |
+
+# How to build
+
+![PRODUCT IMAGE](images/PRODUCT-IMAGE.png)
+
+## install
+
+```
+git clone https://github.com/pontech-dev/zk-id-swap.git
+
+cd zk-id-swap
+
+forge build
+
+cd vlayer-react
+
+bun install
+
+bun run deploy:testnet
+```
+
+## update .env
+
+Add and configure the necessary environment variables
+
+```
+VITE_DYNAMIC_ENVIRONMENT_ID=
+VITE_ZERODEV_PAYMASTER_URL=
+
+# get both values from https://developer.worldcoin.org
+VITE_WLD_APP_ID=
+VITE_WLD_ACTION=
+VITE_PROVER_ADDRESS=
+VITE_VERIFIER_ADDRESS=
+VITE_CHAIN_NAME=
+VITE_PROVER_URL=
+VITE_JSON_RPC_URL=
+VITE_PRIVATE_KEY=
+```
+
+## Start
+
+```
+bun run dev
+```
