@@ -21,6 +21,7 @@ import { Hex } from "viem";
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
+import tlsProofData from '../../../vlayer/fj_proof.json';
 
 import {
   createExtensionWebProofProvider,
@@ -61,7 +62,7 @@ const defaultValues = {
 function RouteComponent() {
   const { primaryWallet } = useDynamicContext();
 
-  const [tlsProof, setTlsProof] = useState<WebProof | null>(null);
+  const [tlsProof, setTlsProof] = useState<WebProof | null>(tlsProofData);
   const [provingResult, setProvingResult] = useState<any | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,36 +101,36 @@ function RouteComponent() {
   }
 
   async function setupVProverButton() {
-      const notaryPubKey =
-        "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAExpX/4R4z40gI6C/j9zAM39u58LJu\n3Cx5tXTuqhhu/tirnBi5GniMmspOTEsps4ANnPLpMmMSfhJ+IFHbc3qVOA==\n-----END PUBLIC KEY-----\n";
+    const notaryPubKey =
+      "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAExpX/4R4z40gI6C/j9zAM39u58LJu\n3Cx5tXTuqhhu/tirnBi5GniMmspOTEsps4ANnPLpMmMSfhJ+IFHbc3qVOA==\n-----END PUBLIC KEY-----\n";
 
-      const webProof = {
-        tls_proof: tlsProof,
-        notary_pub_key: notaryPubKey,
-      };
-      console.log(webProof);
-      const vlayer = createVlayerClient({
-        url: import.meta.env.VITE_PROVER_URL,
-      });
+    const webProof = {
+      tls_proof: tlsProof,
+      notary_pub_key: notaryPubKey,
+    };
+    console.log(webProof);
+    const vlayer = createVlayerClient({
+      url: import.meta.env.VITE_PROVER_URL,
+    });
 
-      console.log("Generating proof...");
-      const hash = await vlayer.prove({
-        address: import.meta.env.VITE_PROVER_ADDRESS,
-        functionName: "main",
-        proverAbi: webProofVerifier.abi,
-        args: [
-          {
-            webProofJson: JSON.stringify(webProof),
-          },
-          primaryWallet?.address,
-        ],
-        chainId: import.meta.env.VITE_CHAIN_NAME.id,
-      });
-      const provingResult = await vlayer.waitForProvingResult(hash);
-      setProvingResult(provingResult as [Proof, string, Hex]);
-      form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
-      console.log("Proof generated!", provingResult);
-  };
+    console.log("Generating proof...");
+    const hash = await vlayer.prove({
+      address: import.meta.env.VITE_PROVER_ADDRESS,
+      functionName: "main",
+      proverAbi: webProofProver.abi,
+      args: [
+        {
+          webProofJson: JSON.stringify(webProof),
+        },
+        primaryWallet?.address,
+      ],
+      chainId: import.meta.env.VITE_CHAIN_NAME.id,
+    });
+    const provingResult = await vlayer.waitForProvingResult(hash);
+    setProvingResult(provingResult as [Proof, string, Hex]);
+    console.log("Proof generated!", provingResult);
+    form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
+};
 
   // async function setupVerifyButton() {
   //   isDefined(provingResult, "Proving result is undefined");
