@@ -31,7 +31,7 @@ contract ZkVerifiedEscrow is Verifier {
         usdcToken = _usdcToken;
     }
 
-    function list(Proof calldata, string memory username, uint256 price)
+    function list(Proof calldata, string memory username, address account, uint256 price)
         external
         onlyVerified(prover, WebProofProver.main.selector)
     {

@@ -125,12 +125,23 @@ function RouteComponent() {
       url: import.meta.env.VITE_PROVER_URL,
     });
 
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+
+    console.log({ priceUsd, type: typeof priceUsd });
+
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+
     console.log("Generating proof...");
     const hash = await vlayer.prove({
       address: import.meta.env.VITE_PROVER_ADDRESS,
       functionName: "main",
       proverAbi: webProofProver.abi as Abi,
-      args: [{ webProofJson: JSON.stringify(webProof) }, account.address],
+      args: [{ webProofJson: JSON.stringify(webProof) }, account.address, amount],
       chainId,
     });
     const provingResult = (await vlayer.waitForProvingResult(
@@ -167,41 +178,50 @@ function RouteComponent() {
 
   async function listIDButton() {
     if (!provingResult) return;
-    // console.log("Proving result:", provingResult);
-    // console.log(provingResult[0]);
-    // console.log(provingResult[1]);
-    // console.log(provingResult[2]);
     isDefined(provingResult, "Proving result is undefined");
-    // const provider = await getWeb3Provider(primaryWallet!);
-    const signer = await getSigner(primaryWallet!);
-
-    const contract = new Contract(
-      import.meta.env.VITE_VERIFIER_ADDRESS,
-      ZkVerifiedEscrow.abi,
-      signer
-    );
-
     const priceUsd = form.getValues("priceUsd");
     if (!priceUsd || priceUsd <= 0) {
       console.error("Invalid price");
       return;
     }
-
     console.log({ priceUsd, type: typeof priceUsd });
-
     const amount = parseUnits(priceUsd.toString(), 6);
     console.log(amount.toString());
-
+    console.log(ZkVerifiedEscrow.abi);
     try {
-      const tx = await contract.list(
-        provingResult[0],
-        provingResult[1],
-        amount,
-        {
-          gasLimit: 500000,
-        }
-      );
-      const receipt = await tx.wait();
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "list",
+        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
+  async function depositButton() {
+    if (!provingResult) return;
+    isDefined(provingResult, "Proving result is undefined");
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+    console.log({ priceUsd, type: typeof priceUsd });
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+    console.log(ZkVerifiedEscrow.abi);
+    try {
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "list",
+        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
       console.log("Transaction successful:", receipt);
     } catch (error) {
       console.error("Transaction failed:", error);
@@ -221,6 +241,9 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={listIDButton}>
         List
+      </Button>
+      <Button className="mt-12" onClick={depositButton}>
+        Deposit
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -14,15 +14,15 @@ contract WebProofProver is Prover {
 
     string constant DATA_URL = "https://api.x.com/1.1/account/settings.json";
 
-    function main(WebProof calldata webProof, address account)
+    function main(WebProof calldata webProof, address account, uint256 amount)
         public
         view
-        returns (Proof memory, string memory, address)
+        returns (Proof memory, string memory, address, uint256)
     {
         Web memory web = webProof.verify(DATA_URL);
 
         string memory screenName = web.jsonGetString("screen_name");
 
-        return (proof(), screenName, account);
+        return (proof(), screenName, account, amount);
     }
 }
