@@ -1,4 +1,4 @@
-import { useShopItem } from "@/hooks/use-shop-items";
+import { useShopItem2 } from "@/hooks/use-shop-items";
 import { formatShopItemPrice } from "@/lib/format";
 import { createFileRoute } from "@tanstack/react-router";
 // import { useChains } from "wagmi";
@@ -96,14 +96,16 @@ export const Route = createFileRoute("/shop/$itemId")({
 });
 
 const parseItemId = (itemId: string) => {
-  const [chainId, id] = itemId.split("-");
+  const [chainId, id] = itemId.split(":");
   return { chainId: parseInt(chainId), id };
 };
 
 function RouteComponent() {
   const { itemId } = Route.useParams();
   const { chainId, id } = parseItemId(itemId);
-  const { data: shopItem } = useShopItem(chainId, id);
+  const { data: shopItem } = useShopItem2(chainId, id);
+  console.log("shopItem", shopItem);
+
   // const chains = useChains();
   // const chain = chains.find((c) => c.id === chainId);
 

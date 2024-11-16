@@ -3,8 +3,8 @@ import { ZK_VERIFIED_ESCROW_ABI } from "@/lib/abis";
 import { pickMockParamsById, shopItems } from "@/mock";
 import { ShopItem } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { parseAbiItem } from "viem";
-import { useChainId, usePublicClient } from "wagmi";
+import { parseAbiItem, zeroAddress } from "viem";
+import { useChainId, usePublicClient, useReadContract } from "wagmi";
 
 const listedEvent = parseAbiItem(
   "event Listed(string indexed username, uint256 price, address indexed seller)"
@@ -93,4 +93,49 @@ export const useShopItem = (chainId: number, id: string) => {
   });
 
   return query;
+};
+
+export const useShopItem2 = (chainId: number, id: string) => {
+  const { data, ...rest } = useReadContract({
+    address: getEscrowContractAddress(chainId),
+    abi: ZK_VERIFIED_ESCROW_ABI,
+    functionName: "listings",
+    args: ["wasm"],
+  });
+
+  console.log("data", data);
+
+  const mock = pickMockParamsById(id);
+
+  const item =
+    data &&
+    (data[2] === zeroAddress
+      ? null
+      : ({
+          type: "twitter",
+          id,
+          seller: data[2],
+          chainId,
+          providerId: `@${id}`,
+          name: id,
+          description: mock.description,
+          thumbnail: mock.thumbnail,
+          bannerImg: mock.bannerImg,
+          price: {
+            uint: data[1],
+            token: getStableToken(chainId),
+          },
+          metadata: {
+            followers: mock.metadata.followers,
+            tweets: mock.metadata.tweets,
+          },
+          status:
+            data[3] === 0 ? "selling" : data[3] === 1 ? "trading" : "sold",
+          createdDate: new Date(Date.now() - 1000 * 60 * 60 * Math.random()),
+          createdDatetime: new Date(
+            Date.now() - 1000 * 60 * 60 * Math.random()
+          ).toISOString(),
+        } satisfies ShopItem));
+
+  return { data: item, ...rest };
 };
