@@ -20,7 +20,8 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { getSigner } from "@dynamic-labs/ethers-v6";
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
-import { Contract } from "ethers";
+import ZkVerifiedEscrow from "../../../out/ZkVerifiedEscrow.sol/ZkVerifiedEscrow";
+import { parseUnits, Contract } from "ethers";
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
@@ -80,7 +81,7 @@ function RouteComponent() {
       proverCallCommitment: {
         address: import.meta.env.VITE_PROVER_ADDRESS,
         proverAbi: webProofProver.abi,
-        chainId: 11155420,
+        chainId: 11155111, // 11155420,
         functionName: "main",
         commitmentArgs: ["0x"],
       },
@@ -124,7 +125,7 @@ function RouteComponent() {
         },
         primaryWallet?.address,
       ],
-      chainId: 11155420,
+      chainId: 11155111, // 11155420,
     });
     const provingResult = await vlayer.waitForProvingResult(hash);
     setProvingResult(provingResult as typeof mockProvingResult);
@@ -164,6 +165,49 @@ function RouteComponent() {
     }
   }
 
+  async function listIDButton() {
+    if (!provingResult) return;
+    // console.log("Proving result:", provingResult);
+    // console.log(provingResult[0]);
+    // console.log(provingResult[1]);
+    // console.log(provingResult[2]);
+    isDefined(provingResult, "Proving result is undefined");
+    // const provider = await getWeb3Provider(primaryWallet!);
+    const signer = await getSigner(primaryWallet!);
+
+    const contract = new Contract(
+      import.meta.env.VITE_VERIFIER_ADDRESS,
+      ZkVerifiedEscrow.abi,
+      signer
+    );
+
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+
+    console.log({ priceUsd, type: typeof priceUsd });
+
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+
+    try {
+      const tx = await contract.list(
+        provingResult[0],
+        provingResult[1],
+        amount,
+        {
+          gasLimit: 500000,
+        }
+      );
+      const receipt = await tx.wait();
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
       <Button className="mt-12" onClick={setupRequestProveButton}>
@@ -174,6 +218,9 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={setupVerifyButton}>
         Call Vlayer Verifier
+      </Button>
+      <Button className="mt-12" onClick={listIDButton}>
+        List
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
