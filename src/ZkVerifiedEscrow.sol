@@ -60,13 +60,14 @@ contract ZkVerifiedEscrow is Verifier {
         emit Deposited(username, price, msg.sender);
     }
 
-    function withdraw(Proof calldata, string memory username)
+    function withdraw(Proof calldata, string memory username, address account, uint256 price)
         external
         onlyVerified(prover, WebProofProver.main.selector)
     {
         address buyer = escrow[username];
         require(buyer != address(0), "No escrow for this username");
         require(msg.sender == buyer, "Only buyer can withdraw");
+		require(price == listings[username].price, "Price mismatch");
 
         uint256 amount = listings[username].price;
         listings[username].status = ListingStatus.DONE;

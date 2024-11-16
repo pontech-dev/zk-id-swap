@@ -250,6 +250,32 @@ function RouteComponent() {
     }
   }
 
+  async function withdrawButton() {
+    if (!provingResult) return;
+    isDefined(provingResult, "Proving result is undefined");
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+    console.log({ priceUsd, type: typeof priceUsd });
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+    console.log(ZkVerifiedEscrow.abi);
+    try {
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "withdraw",
+        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
       <Button className="mt-12" onClick={setupRequestProveButton}>
@@ -269,6 +295,9 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={depositButton}>
         Deposit
+      </Button>
+      <Button className="mt-12" onClick={withdrawButton}>
+        Withdraw
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
