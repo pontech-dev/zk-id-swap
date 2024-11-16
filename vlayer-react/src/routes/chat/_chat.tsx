@@ -17,8 +17,7 @@ import { IFeeds } from "@pushprotocol/restapi";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Outlet } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-// import { useAccount } from "wagmi";
-import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { useAccount } from "wagmi";
 import { Address } from "viem";
 
 export const Route = createFileRoute("/chat/_chat")({
@@ -27,14 +26,13 @@ export const Route = createFileRoute("/chat/_chat")({
 
 function RouteComponent() {
   const router = useRouter();
-  const { primaryWallet } = useDynamicContext();
-  // const account = useAccount();
+  const account = useAccount();
   const { initializePushClient, pushClient } = usePushClient();
   const chatRequests = useChatRequests();
   const chatList = useChatList();
   const { acceptRequest, rejectRequest, sendMessage } = useChatActions();
 
-  if (!primaryWallet)
+  if (!account.isConnected)
     return (
       <div className="flex flex-1 justify-center items-center">
         Please connect your wallet

@@ -6,20 +6,22 @@ import { routeTree } from "./routeTree.gen";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import { mainnet } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
-import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
-import {
-  ZeroDevSmartWalletConnectors,
-  ZeroDevSmartWalletConnectorsWithConfig,
-} from "@dynamic-labs/ethereum-aa";
+import { rainbowWeb3AuthConnector } from "./lib/web3auth";
+import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
+import { CHAINS } from "./constants";
 
 const config = getDefaultConfig({
   appName: "ZK ID Swap",
   projectId: "adb327da1f8267bf5019de44564b1372",
-  chains: [mainnet],
+  chains: CHAINS,
   ssr: false,
+  wallets: [
+    {
+      groupName: "Recommended",
+      wallets: [rainbowWeb3AuthConnector, metaMaskWallet],
+    },
+  ],
 });
 
 const queryClient = new QueryClient();
@@ -41,22 +43,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <DynamicContextProvider
-            settings={{
-              environmentId: import.meta.env.VITE_DYNAMIC_ENVIRONMENT_ID,
-              walletConnectors: [
-                EthereumWalletConnectors,
-                ZeroDevSmartWalletConnectors,
-                ZeroDevSmartWalletConnectorsWithConfig({
-                  paymasterRpc: import.meta.env.VITE_ZERODEV_PAYMASTER_URL,
-                }),
-              ],
-            }}
-          >
-            <RainbowKitProvider>
-              <RouterProvider router={router} />
-            </RainbowKitProvider>
-          </DynamicContextProvider>
+          <RainbowKitProvider>
+            <RouterProvider router={router} />
+          </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>
     </StrictMode>
