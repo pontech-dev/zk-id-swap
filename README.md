@@ -20,7 +20,7 @@ ZK ID Swap combines cutting-edge technologies to create a secure and efficient S
 
 We implemented zkTLS technology to securely verify SNS account ownership. This allows smart contracts to validate Twitter IDs directly, ensuring transparent and trustless transactions.
 
-**[Push Protocol Chat]((https://push.org/)):**
+**[PushProtocolChat]((https://push.org/)):**
 
 A secure chat feature built with Push Protocol enables users to exchange credentials like IDs and passwords without exposing them to intermediaries, preserving privacy.
 
@@ -36,7 +36,7 @@ By adopting USDC, we ensure stable, reliable transactions that are familiar to c
 
 Users who have completed KYC through MoonPay can purchase USDC via credit card.
 
-**[World ID]((https://ja-jp.world.org/world-id)) for Humanity Verification:**
+**[WorldID]((https://ja-jp.world.org/world-id)) for Humanity Verification:**
 
 World ID adds an additional layer of security by verifying users' humanity, discouraging malicious behavior and building trust within the ecosystem.
 
