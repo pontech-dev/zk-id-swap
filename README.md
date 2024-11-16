@@ -79,7 +79,6 @@ bun run deploy:testnet
 Add and configure the necessary environment variables
 
 ```
-VITE_DYNAMIC_ENVIRONMENT_ID=
 VITE_ZERODEV_PAYMASTER_URL=
 
 # get both values from https://developer.worldcoin.org
