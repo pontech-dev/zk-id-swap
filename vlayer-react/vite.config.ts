@@ -1,7 +1,7 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import path from "path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
   plugins: [TanStackRouterVite(), react()],
@@ -11,10 +11,9 @@ export default defineConfig({
     },
   },
   server: {
-    host: '127.0.0.1'
+    host: "127.0.0.1",
   },
   define: {
-
-    global: {},
+    global: "globalThis",
   },
-})
+});

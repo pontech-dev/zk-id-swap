@@ -22,6 +22,7 @@ import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
 import ZkVerifiedEscrow from "../../../out/ZkVerifiedEscrow.sol/ZkVerifiedEscrow";
 import { parseUnits, Contract } from "ethers";
+
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
@@ -32,6 +33,13 @@ import {
 } from "@vlayer/sdk/web_proof";
 
 import { createVlayerClient, type WebProof, isDefined } from "@vlayer/sdk";
+import {
+  useAccount,
+  useChainId,
+  usePublicClient,
+  useWriteContract,
+} from "wagmi";
+import { Abi } from "viem";
 
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
@@ -56,7 +64,10 @@ const defaultValues = {
 };
 
 function RouteComponent() {
-  const { primaryWallet } = useDynamicContext();
+  const account = useAccount();
+  const chainId = useChainId();
+  const { writeContractAsync } = useWriteContract();
+  const client = usePublicClient();
 
   const [tlsProof, setTlsProof] = useState<WebProof | null>(mockTlsProof);
   // const [provingResult, setProvingResult] = useState<any | null>(null);
@@ -80,8 +91,8 @@ function RouteComponent() {
     const webProof = await provider.getWebProof({
       proverCallCommitment: {
         address: import.meta.env.VITE_PROVER_ADDRESS,
-        proverAbi: webProofProver.abi,
-        chainId: 11155111, // 11155420,
+        proverAbi: webProofProver.abi as Abi,
+        chainId,
         functionName: "main",
         commitmentArgs: ["0x"],
       },
@@ -118,47 +129,36 @@ function RouteComponent() {
     const hash = await vlayer.prove({
       address: import.meta.env.VITE_PROVER_ADDRESS,
       functionName: "main",
-      proverAbi: webProofProver.abi,
-      args: [
-        {
-          webProofJson: JSON.stringify(webProof),
-        },
-        primaryWallet?.address,
-      ],
-      chainId: 11155111, // 11155420,
+      proverAbi: webProofProver.abi as Abi,
+      args: [{ webProofJson: JSON.stringify(webProof) }, account.address],
+      chainId,
     });
-    const provingResult = await vlayer.waitForProvingResult(hash);
-    setProvingResult(provingResult as typeof mockProvingResult);
+    const provingResult = (await vlayer.waitForProvingResult(
+      hash
+    )) as typeof mockProvingResult;
+    setProvingResult(provingResult);
     console.log("Proof generated!", provingResult);
     form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
   }
 
   async function setupVerifyButton() {
-    if (!provingResult) return;
+    if (!provingResult || !client) return;
     console.log("Proving result:", provingResult);
     console.log(provingResult[0]);
     console.log(provingResult[1]);
     console.log(provingResult[2]);
     isDefined(provingResult, "Proving result is undefined");
     // const provider = await getWeb3Provider(primaryWallet!);
-    const signer = await getSigner(primaryWallet!);
-
-    const contract = new Contract(
-      import.meta.env.VITE_VERIFIER_ADDRESS,
-      webProofVerifier.abi,
-      signer
-    );
 
     try {
-      const tx = await contract.verify(
-        provingResult[0],
-        provingResult[1],
-        provingResult[2],
-        {
-          gasLimit: 500000,
-        }
-      );
-      const receipt = await tx.wait();
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        abi: webProofVerifier.abi,
+        functionName: "verify",
+        args: [provingResult[0], provingResult[1], provingResult[2]],
+      });
+
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
       console.log("Transaction successful:", receipt);
     } catch (error) {
       console.error("Transaction failed:", error);
