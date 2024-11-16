@@ -18,6 +18,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { formatTwitterHandle } from "@/lib/format";
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver.json";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier.json";
+import escrow from "../../../out/Escrow.sol/MarketplaceEscrow.json";
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
@@ -75,8 +76,39 @@ function RouteComponent() {
     defaultValues,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    if (!values || !client) return;
+    try {
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_ESCROW_ADDRESS,
+        abi: escrow.abi,
+        functionName: "list",
+        args: [values.twitterId, values.priceUsd],
+      });
+
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
+  async function onSubmitList() {
+    if (!client) return;
+    try {
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_ESCROW_ADDRESS,
+        abi: escrow.abi,
+        functionName: "list",
+        args: ["peaceandwhisky", "10"],
+      });
+
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
   }
 
   async function setupRequestProveButton() {
@@ -170,6 +202,9 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={setupVerifyButton}>
         Call Vlayer Verifier
+      </Button>
+      <Button className="mt-12" onClick={onSubmitList}>
+        List
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

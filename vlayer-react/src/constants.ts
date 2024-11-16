@@ -1,10 +1,12 @@
-import { optimismSepolia, polygonZkEvmTestnet } from "viem/chains";
+import { sepolia, optimismSepolia, polygonZkEvmTestnet } from "viem/chains";
 
-export const CHAINS = [optimismSepolia, polygonZkEvmTestnet] as const;
+export const CHAINS = [sepolia, optimismSepolia, polygonZkEvmTestnet] as const;
 
 export type ChainId = (typeof CHAINS)[number]["id"];
 
 export const CHAIN_IMAGES: Record<ChainId, string> = {
+  [sepolia.id]:
+    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/sepolia/info/logo.png",
   [optimismSepolia.id]:
     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/optimism/info/logo.png",
   [polygonZkEvmTestnet.id]:

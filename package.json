@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@dynamic-labs/ethers-v6": "^3.6.3",
+    "@dynamic-labs/sdk-react-core": "^3.6.3",
+    "ethers": "^6.13.4"
+  }
+}

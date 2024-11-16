@@ -5,7 +5,12 @@ import { getChainImage } from "@/constants";
 import { useShopItem } from "@/hooks/use-shop-items";
 import { formatShopItemPrice } from "@/lib/format";
 import { createFileRoute } from "@tanstack/react-router";
-import { useChains } from "wagmi";
+import {
+  usePublicClient,
+  useChains,
+  useWriteContract,
+} from "wagmi";
+import escrow from "../../../../out/Escrow.sol/MarketplaceEscrow.json";
 
 export const Route = createFileRoute("/shop/$itemId")({
   component: RouteComponent,
@@ -17,6 +22,8 @@ const parseItemId = (itemId: string) => {
 };
 
 function RouteComponent() {
+  const { writeContractAsync } = useWriteContract();
+  const client = usePublicClient();
   const { itemId } = Route.useParams();
   const { chainId, id } = parseItemId(itemId);
   const { data: shopItem } = useShopItem(chainId, id);
@@ -24,6 +31,23 @@ function RouteComponent() {
   const chain = chains.find((c) => c.id === chainId);
 
   if (!shopItem) return null;
+
+  async function onSubmitDeposit() {
+    if (!client) return;
+    try {
+      const result = await writeContractAsync({
+        address: import.meta.env.VITE_ESCROW_ADDRESS,
+        abi: escrow.abi,
+        functionName: "deposit",
+        args: ["peaceandwhisky", "10"],
+      });
+  
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
 
   return (
     <main className="@container p-4 sm:px-8 max-w-screen-md w-full mx-auto">
@@ -72,7 +96,7 @@ function RouteComponent() {
             <Button variant="outline" className="w-full">
               Chat to Seller
             </Button>
-            <Button className="w-full">Buy 🚀</Button>
+            <Button className="w-full" onClick={onSubmitDeposit}>Buy 🚀</Button>
           </div>
         </div>
       </div>
