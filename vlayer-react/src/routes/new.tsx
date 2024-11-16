@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createContext } from "@vlayer/sdk/config";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { formatTwitterHandle } from "@/lib/format";
-import { Hex } from "viem";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { getSigner } from "@dynamic-labs/ethers-v6";
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
@@ -32,13 +30,7 @@ import {
   startPage,
 } from "@vlayer/sdk/web_proof";
 
-import {
-  createVlayerClient,
-  type WebProof,
-  type Proof,
-  isDefined,
-} from "@vlayer/sdk";
-import { tls_proof } from "@/mock";
+import { createVlayerClient, type WebProof, isDefined } from "@vlayer/sdk";
 
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
