@@ -14,3 +14,4 @@ export const pickContent = (feed: IFeeds): string => {
 export const parseTarget = (feed: IFeeds): Address => {
     return feed.msg.fromDID.split(":")[1] as Address;
 };
+

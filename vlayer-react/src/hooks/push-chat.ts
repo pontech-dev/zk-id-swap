@@ -1,5 +1,5 @@
 // import { useWalletClient } from "wagmi";
-import { PushAPI, CONSTANTS } from "@pushprotocol/restapi"
+import { CONSTANTS, PushAPI } from "@pushprotocol/restapi"
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useCallback, } from "react";
@@ -22,13 +22,13 @@ export const usePushClient = () => {
     //     }
     // })
     const pushClient = useQuery({
-      queryKey: ["push-client", primaryWallet?.address],
-      queryFn: async () => {
-          if (!primaryWallet || !_pushClient) return null;
-          const client = await _pushClient;
-          return client;
-      },
-      enabled: !!primaryWallet,
+        queryKey: ["push-client", primaryWallet?.address],
+        queryFn: async () => {
+            if (!primaryWallet || !_pushClient) return null;
+            const client = await _pushClient;
+            return client;
+        },
+        enabled: !!primaryWallet,
     });
 
     // const initializePushClient = useCallback(async () => {
@@ -37,12 +37,10 @@ export const usePushClient = () => {
     //     pushClient.refetch();
     // }, [wallet.data, pushClient])
     const initializePushClient = useCallback(async () => {
-      if (!primaryWallet) return;
-      const signer = await getSigner(primaryWallet);
-      _pushClient = PushAPI.initialize(signer, {
-        env: CONSTANTS.ENV.STAGING,
-      });
-      pushClient.refetch();
+        if (!primaryWallet) return;
+        const signer = await getSigner(primaryWallet);
+        _pushClient = PushAPI.initialize(signer);
+        pushClient.refetch();
     }, [primaryWallet, pushClient]);
 
     return { pushClient, initializePushClient };
@@ -82,20 +80,23 @@ export const useChatRequests = () => {
 }
 
 export const useChatHistory = (
-    target: Address
+    target: string
 ) => {
     const { pushClient } = usePushClient();
     const chatHistory = useQuery({
-        queryKey: ["chat-history", pushClient.data, target],
+        queryKey: ["chat-history", target],
         queryFn: async () => {
             try {
                 if (!pushClient.data) return [];
-                return pushClient.data.chat.history(target)
+                const history = await pushClient.data.chat.history(target)
+                console.log("history", history);
+                return history;
             } catch (error) {
                 console.error(error);
                 return [];
             }
-        }
+        },
+        enabled: !!pushClient.data
     })
 
     return chatHistory;
