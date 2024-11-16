@@ -1,4 +1,5 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+// import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 import { SidebarTrigger } from "../ui/sidebar";
 
 export const Header = () => {
@@ -8,7 +9,8 @@ export const Header = () => {
         ZK ID Swap
       </h1>
       <nav className="flex items-center justify-end gap-4">
-        <ConnectButton />
+        <DynamicWidget />
+        {/* <ConnectButton /> */}
         <SidebarTrigger className="md:hidden" />
       </nav>
     </header>

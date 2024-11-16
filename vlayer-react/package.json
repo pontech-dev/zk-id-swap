@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^3.6.1",
+    "@dynamic-labs/ethereum-aa": "^3.6.1",
+    "@dynamic-labs/ethers-v6": "^3.6.2",
+    "@dynamic-labs/sdk-react-core": "^3.6.1",
     "@hookform/resolvers": "^3.9.1",
     "@pushprotocol/restapi": "^1.7.29",
     "@radix-ui/react-avatar": "^1.1.1",
@@ -26,6 +30,7 @@
     "clsx": "^2.1.1",
     "ethers": "^6.13.4",
     "lucide-react": "^0.460.0",
+    "permissionless": "0.1.44",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",
