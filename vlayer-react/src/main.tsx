@@ -10,7 +10,10 @@ import { mainnet } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
-import { ZeroDevSmartWalletConnectors } from "@dynamic-labs/ethereum-aa";
+import {
+  ZeroDevSmartWalletConnectors,
+  ZeroDevSmartWalletConnectorsWithConfig,
+} from "@dynamic-labs/ethereum-aa";
 
 const config = getDefaultConfig({
   appName: "ZK ID Swap",
@@ -44,6 +47,9 @@ if (!rootElement.innerHTML) {
               walletConnectors: [
                 EthereumWalletConnectors,
                 ZeroDevSmartWalletConnectors,
+                ZeroDevSmartWalletConnectorsWithConfig({
+                  paymasterRpc: import.meta.env.VITE_ZERODEV_PAYMASTER_URL,
+                }),
               ],
             }}
           >

@@ -3,6 +3,7 @@
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 import { SidebarTrigger } from "../ui/sidebar";
 import MoonPayButton from "../ui/moonpay";
+import WorldcoinButton from '../ui/worldcoin';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 export const Header = () => {
@@ -13,6 +14,7 @@ export const Header = () => {
         ZK ID Swap
       </h1>
       <nav className="flex items-center justify-end w-full gap-4">
+        {primaryWallet && <WorldcoinButton />}
         {primaryWallet && <MoonPayButton />}
         <DynamicWidget />
         {/* <ConnectButton /> */}
