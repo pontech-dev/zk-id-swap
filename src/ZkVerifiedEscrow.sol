@@ -19,9 +19,9 @@ contract ZkVerifiedEscrow is Verifier {
 
     address public prover;
     address public usdcToken;
-    string[] public listedUsernames;
     mapping(string => Listing) public listings; // username => Listing
     mapping(string => address) public escrow; // username => buyer
+	string[] public listUsernames;
 
     event Listed(string indexed username, uint256 price, address indexed seller);
     event Deposited(string indexed username, uint256 amount, address indexed buyer);
@@ -44,7 +44,8 @@ contract ZkVerifiedEscrow is Verifier {
             seller: msg.sender,
             status: ListingStatus.LISTING
         });
-        listedUsernames.push(username);
+
+		listUsernames.push(username);
 
         emit Listed(username, price, msg.sender);
     }
