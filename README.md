@@ -1,66 +1,43 @@
-## Foundry
+![ZK ID Swap](images/ZK-ID-SWAP.jpg)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+ZK ID Swap is a blockchain-based marketplace designed for the secure and affordable trading of SNS accounts. Leveraging zkTLS technology, the platform verifies account ownership without exposing sensitive user information. Transactions are conducted via smart contracts with on-chain escrow, eliminating the need for intermediaries and ensuring transparency.
 
-Foundry consists of:
+By removing traditional web2 middlemen, ZK ID Swap reduces fees and increases trust in the trading process. The platform is tailored to provide a seamless onboarding experience for web2 users, featuring web3Auth and cryptoless onboarding with MoonPay integration.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+ZK ID Swap is ideal for influencers, businesses, and marketing professionals seeking a reliable, efficient way to buy or sell SNS accounts while embracing the advantages of web3 technology.
 
-## Documentation
 
-https://book.getfoundry.sh/
+## Presentation Slide
 
-## Usage
+[Presentation Slide](https://www.canva.com/design/DAGWnn3UXZs/0ul4tJ67Kogoa9mzJH9gkw/view?utm_content=DAGWnn3UXZs&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
-### Build
 
-```shell
-$ forge build
-```
+## How It's made
 
-### Test
+ZK ID Swap combines cutting-edge technologies to create a secure and efficient SNS account trading marketplace. Here’s how we built it:
 
-```shell
-$ forge test
-```
+**zkTLS Integration (webProof by [vlayer](https://www.vlayer.xyz/)):**
 
-### Format
+We implemented zkTLS technology to securely verify SNS account ownership. This allows smart contracts to validate Twitter IDs directly, ensuring transparent and trustless transactions.
 
-```shell
-$ forge fmt
-```
+**Push Protocol Chat:**
 
-### Gas Snapshots
+A secure chat feature built with [Push Protocol](https://push.org/) enables users to exchange credentials like IDs and passwords without exposing them to intermediaries, preserving privacy.
 
-```shell
-$ forge snapshot
-```
+**Web3Auth for Wallet Integration:**
 
-### Anvil
+[Web3Auth](https://web3auth.io/) simplifies onboarding for non-crypto users by providing an easy-to-use wallet solution, bridging the gap between web2 and web3.
 
-```shell
-$ anvil
-```
+**USDC as the Transaction Currency:**
 
-### Deploy
+By adopting [USDC](https://www.circle.com/usdc), we ensure stable, reliable transactions that are familiar to crypto and non-crypto users alike.
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+**World ID for Humanity Verification:**
 
-### Cast
+[World ID](https://ja-jp.world.org/world-id) adds an additional layer of security by verifying users' humanity, discouraging malicious behavior and building trust within the ecosystem.
 
-```shell
-$ cast <subcommand>
-```
 
-### Help
+## DEMO Movie
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+To be provided at a later date when ready.
+
