@@ -11,7 +11,7 @@ import {
 export const ChatSidebar: FC<{
   chatRequests?: IFeeds[];
   chats?: IFeeds[];
-}> = ({ chatRequests, chats }) => {
+}> = ({ chatRequests: _chatRequests, chats: _chats }) => {
   return (
     <Sidebar>
       <SidebarHeader />
