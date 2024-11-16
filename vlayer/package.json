@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prove:testnet": "VLAYER_ENV=testnet bun run prove.ts",
     "prove:dev": "VLAYER_ENV=dev bun run prove.ts",
-    "deploy:testnet": "VLAYER_ENV=testnet bun run deploy.ts",
+    "deploy:testnet": "VLAYER_ENV=testnet bun run deploy.ts --gas-limit 10000000",
     "deploy:dev": "VLAYER_ENV=dev bun run deploy.ts"
   },
   "dependencies": {
