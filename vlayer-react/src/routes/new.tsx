@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createContext } from "@vlayer/sdk/config";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,14 +17,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { formatTwitterHandle } from "@/lib/format";
-import { foundry } from "viem/chains";
 import { Hex } from "viem";
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
-import { getWeb3Provider,getSigner, } from '@dynamic-labs/ethers-v6'
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { getSigner } from "@dynamic-labs/ethers-v6";
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
-import tlsProofData from '../../../vlayer/fj_proof.json';
-import { Contract } from 'ethers';
+import { Contract } from "ethers";
+import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
   createExtensionWebProofProvider,
@@ -38,6 +38,7 @@ import {
   type Proof,
   isDefined,
 } from "@vlayer/sdk";
+import { tls_proof } from "@/mock";
 
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
@@ -64,36 +65,11 @@ const defaultValues = {
 function RouteComponent() {
   const { primaryWallet } = useDynamicContext();
 
-  const [tlsProof, setTlsProof] = useState<WebProof | null>(tlsProofData);
+  const [tlsProof, setTlsProof] = useState<WebProof | null>(mockTlsProof);
   // const [provingResult, setProvingResult] = useState<any | null>(null);
-  const [provingResult, setProvingResult] = useState<any | null>([
-    {
-      seal: {
-        verifierSelector: "0xdeafbeef",
-        seal: [
-          "0x356578b7675cc471ed4dd4a8ad7191c9cc23b6a10b3603fc7b537c100fd14e33",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000"
-        ],
-        mode: 1
-      },
-      callGuestId: "0xc0f59f76de44b1700c2de89e0eeffbbad523e049b6beef55441f371811f62767",
-      length: 768,
-      callAssumptions: {
-        functionSelector: "0xc822d5ef",
-        proverContractAddress: "0x3f15ea4bda79d1a4398e035e59f582f79393b2aa",
-        settleBlockNumber: 19963130,
-        settleBlockHash: "0x19f29876ee7edc1eb653c5bf70b3104ba6919bde56d2bf346b82563a1d7fbf32"
-      }
-    },
-    "wasabi_devcon",
-    "0x7AFf5e8F1c3eB926b8f1E7b196aDc108fb7a00b2"
-  ]);
+  const [provingResult, setProvingResult] = useState<
+    typeof mockProvingResult | null
+  >(mockProvingResult);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -105,12 +81,14 @@ function RouteComponent() {
   }
 
   async function setupRequestProveButton() {
+    console.log("Generating webproof...");
     const provider = createExtensionWebProofProvider();
+
     const webProof = await provider.getWebProof({
       proverCallCommitment: {
         address: import.meta.env.VITE_PROVER_ADDRESS,
         proverAbi: webProofProver.abi,
-        chainId: foundry.id,
+        chainId: 11155420,
         functionName: "main",
         commitmentArgs: ["0x"],
       },
@@ -138,7 +116,7 @@ function RouteComponent() {
       tls_proof: tlsProof,
       notary_pub_key: notaryPubKey,
     };
-    console.log(webProof);
+    console.log(webProof, import.meta.env);
     const vlayer = createVlayerClient({
       url: import.meta.env.VITE_PROVER_URL,
     });
@@ -154,15 +132,16 @@ function RouteComponent() {
         },
         primaryWallet?.address,
       ],
-      chainId: import.meta.env.VITE_CHAIN_NAME.id,
+      chainId: 11155420,
     });
     const provingResult = await vlayer.waitForProvingResult(hash);
-    setProvingResult(provingResult as [Proof, string, Hex]);
+    setProvingResult(provingResult as typeof mockProvingResult);
     console.log("Proof generated!", provingResult);
     form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
-  };
+  }
 
   async function setupVerifyButton() {
+    if (!provingResult) return;
     console.log("Proving result:", provingResult);
     console.log(provingResult[0]);
     console.log(provingResult[1]);
@@ -171,32 +150,41 @@ function RouteComponent() {
     // const provider = await getWeb3Provider(primaryWallet!);
     const signer = await getSigner(primaryWallet!);
 
-    const contract = new Contract(import.meta.env.VITE_VERIFIER_ADDRESS, webProofVerifier.abi, signer)
+    const contract = new Contract(
+      import.meta.env.VITE_VERIFIER_ADDRESS,
+      webProofVerifier.abi,
+      signer
+    );
 
     try {
-        const tx = await contract.verify(provingResult[0], provingResult[1], provingResult[2], {
+      const tx = await contract.verify(
+        provingResult[0],
+        provingResult[1],
+        provingResult[2],
+        {
           gasLimit: 500000,
-      });
-        const receipt = await tx.wait();
-        console.log("Transaction successful:", receipt);
+        }
+      );
+      const receipt = await tx.wait();
+      console.log("Transaction successful:", receipt);
     } catch (error) {
-        console.error("Transaction failed:", error);
+      console.error("Transaction failed:", error);
     }
-  };
+  }
 
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
+      <Button className="mt-12" onClick={setupRequestProveButton}>
+        Create Webproof of your X account
+      </Button>
+      <Button className="mt-12" onClick={setupVProverButton}>
+        Call Vlayer Prover
+      </Button>
+      <Button className="mt-12" onClick={setupVerifyButton}>
+        Call Vlayer Verifier
+      </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Button className="mt-12" onClick={setupRequestProveButton}>
-            Create Webproof of your X account
-          </Button>
-          <Button className="mt-12" onClick={setupVProverButton}>
-            Call Vlayer Prover
-          </Button>
-          <Button className="mt-12" onClick={setupVerifyButton}>
-            Call Vlayer Verifier
-          </Button>
           <div className="flex justify-cente">
             <Avatar className="size-24 bg-muted">
               <AvatarImage src={form.watch("profilePicture")} />
@@ -241,11 +229,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Twitter ID</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="@username"
-                    {...field}
-                    disabled
-                  />
+                  <Input placeholder="@username" {...field} disabled />
                 </FormControl>
                 <FormDescription>
                   Your Twitter handle (starts with @)
