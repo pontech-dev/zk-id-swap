@@ -20,21 +20,25 @@ ZK ID Swap combines cutting-edge technologies to create a secure and efficient S
 
 We implemented zkTLS technology to securely verify SNS account ownership. This allows smart contracts to validate Twitter IDs directly, ensuring transparent and trustless transactions.
 
-**Push Protocol Chat:**
+**[Push Protocol Chat]((https://push.org/)):**
 
-A secure chat feature built with [Push Protocol](https://push.org/) enables users to exchange credentials like IDs and passwords without exposing them to intermediaries, preserving privacy.
+A secure chat feature built with Push Protocol enables users to exchange credentials like IDs and passwords without exposing them to intermediaries, preserving privacy.
 
-**Web3Auth for Wallet Integration:**
+**[Web3Auth](https://web3auth.io/) for Wallet Integration:**
 
-[Web3Auth](https://web3auth.io/) simplifies onboarding for non-crypto users by providing an easy-to-use wallet solution, bridging the gap between web2 and web3.
+Web3Auth simplifies onboarding for non-crypto users by providing an easy-to-use wallet solution, bridging the gap between web2 and web3.
 
-**USDC as the Transaction Currency:**
+**[USDC](https://www.circle.com/usdc) as the Transaction Currency:**
 
-By adopting [USDC](https://www.circle.com/usdc), we ensure stable, reliable transactions that are familiar to crypto and non-crypto users alike.
+By adopting USDC, we ensure stable, reliable transactions that are familiar to crypto and non-crypto users alike.
 
-**World ID for Humanity Verification:**
+**[MoonPay](https://www.moonpay.com/) as an Onramp Solution:**
 
-[World ID](https://ja-jp.world.org/world-id) adds an additional layer of security by verifying users' humanity, discouraging malicious behavior and building trust within the ecosystem.
+Users who have completed KYC through MoonPay can purchase USDC via credit card.
+
+**[World ID]((https://ja-jp.world.org/world-id)) for Humanity Verification:**
+
+World ID adds an additional layer of security by verifying users' humanity, discouraging malicious behavior and building trust within the ecosystem.
 
 
 ## DEMO Movie
