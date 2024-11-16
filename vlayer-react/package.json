@@ -14,6 +14,8 @@
     "@dynamic-labs/ethereum-aa": "^3.6.1",
     "@dynamic-labs/ethers-v6": "^3.6.2",
     "@dynamic-labs/sdk-react-core": "^3.6.1",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.1",
     "@pushprotocol/restapi": "^1.7.29",
     "@radix-ui/react-avatar": "^1.1.1",
