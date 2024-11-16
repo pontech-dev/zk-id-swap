@@ -19,9 +19,11 @@ import { formatTwitterHandle } from "@/lib/format";
 import { foundry } from "viem/chains";
 import { Hex } from "viem";
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { getWeb3Provider,getSigner, } from '@dynamic-labs/ethers-v6'
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
 import tlsProofData from '../../../vlayer/fj_proof.json';
+import { Contract } from 'ethers';
 
 import {
   createExtensionWebProofProvider,
@@ -63,7 +65,35 @@ function RouteComponent() {
   const { primaryWallet } = useDynamicContext();
 
   const [tlsProof, setTlsProof] = useState<WebProof | null>(tlsProofData);
-  const [provingResult, setProvingResult] = useState<any | null>(null);
+  // const [provingResult, setProvingResult] = useState<any | null>(null);
+  const [provingResult, setProvingResult] = useState<any | null>([
+    {
+      seal: {
+        verifierSelector: "0xdeafbeef",
+        seal: [
+          "0x356578b7675cc471ed4dd4a8ad7191c9cc23b6a10b3603fc7b537c100fd14e33",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ],
+        mode: 1
+      },
+      callGuestId: "0xc0f59f76de44b1700c2de89e0eeffbbad523e049b6beef55441f371811f62767",
+      length: 768,
+      callAssumptions: {
+        functionSelector: "0xc822d5ef",
+        proverContractAddress: "0x3f15ea4bda79d1a4398e035e59f582f79393b2aa",
+        settleBlockNumber: 19963130,
+        settleBlockHash: "0x19f29876ee7edc1eb653c5bf70b3104ba6919bde56d2bf346b82563a1d7fbf32"
+      }
+    },
+    "wasabi_devcon",
+    "0x7AFf5e8F1c3eB926b8f1E7b196aDc108fb7a00b2"
+  ]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -130,26 +160,29 @@ function RouteComponent() {
     setProvingResult(provingResult as [Proof, string, Hex]);
     console.log("Proof generated!", provingResult);
     form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
-};
+  };
 
-  // async function setupVerifyButton() {
-  //   isDefined(provingResult, "Proving result is undefined");
-  //   const txHash = await ethClient.writeContract({
-  //       address: import.meta.env.VITE_VERIFIER_ADDRESS,
-  //       abi: webProofProver.abi,
-  //       functionName: "verify",
-  //       args: provingResult,
-  //       chain,
-  //       account: account,
-  //     });
-  //     const verification = await ethClient.waitForTransactionReceipt({
-  //       hash: txHash,
-  //       confirmations,
-  //       retryCount: 60,
-  //       retryDelay: 1000,
-  //     });
-  //     console.log("Verified!", verification);
-  // };
+  async function setupVerifyButton() {
+    console.log("Proving result:", provingResult);
+    console.log(provingResult[0]);
+    console.log(provingResult[1]);
+    console.log(provingResult[2]);
+    isDefined(provingResult, "Proving result is undefined");
+    // const provider = await getWeb3Provider(primaryWallet!);
+    const signer = await getSigner(primaryWallet!);
+
+    const contract = new Contract(import.meta.env.VITE_VERIFIER_ADDRESS, webProofVerifier.abi, signer)
+
+    try {
+        const tx = await contract.verify(provingResult[0], provingResult[1], provingResult[2], {
+          gasLimit: 500000,
+      });
+        const receipt = await tx.wait();
+        console.log("Transaction successful:", receipt);
+    } catch (error) {
+        console.error("Transaction failed:", error);
+    }
+  };
 
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
@@ -160,6 +193,9 @@ function RouteComponent() {
           </Button>
           <Button className="mt-12" onClick={setupVProverButton}>
             Call Vlayer Prover
+          </Button>
+          <Button className="mt-12" onClick={setupVerifyButton}>
+            Call Vlayer Verifier
           </Button>
           <div className="flex justify-cente">
             <Avatar className="size-24 bg-muted">
