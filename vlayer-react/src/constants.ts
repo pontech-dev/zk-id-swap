@@ -4,6 +4,8 @@ import {
   baseSepolia,
   polygonZkEvmTestnet,
 } from "viem/chains";
+import { MockUSDC } from "./mock";
+import { FundibleToken } from "./types";
 
 export const CHAINS = [
   sepolia,
@@ -27,4 +29,37 @@ export const CHAIN_IMAGES: Record<ChainId, string> = {
 
 export const getChainImage = (chainId: number) => {
   return CHAIN_IMAGES[chainId as ChainId];
+};
+
+export const ESCROW_CONTRACT_ADDRESSES = {
+  [sepolia.id]: "0x9c450d72fecd4700e7a08d7ce0c60541a7aa6bd9",
+  [optimismSepolia.id]: "0x0000000000000000000000000000000000000000",
+  [baseSepolia.id]: "0x0000000000000000000000000000000000000000",
+  [polygonZkEvmTestnet.id]: "0x0000000000000000000000000000000000000000",
+} satisfies Record<ChainId, `0x${string}`>;
+
+export const getEscrowContractAddress = (chainId: number) => {
+  return ESCROW_CONTRACT_ADDRESSES[chainId as ChainId];
+};
+
+export const PROVER_CONTRACT_ADDRESSES = {
+  [sepolia.id]: "0xd9a9364b3c1031685e68b821ceeb48ebc86685a0",
+  [optimismSepolia.id]: "0x0000000000000000000000000000000000000000",
+  [baseSepolia.id]: "0x0000000000000000000000000000000000000000",
+  [polygonZkEvmTestnet.id]: "0x0000000000000000000000000000000000000000",
+} satisfies Record<ChainId, `0x${string}`>;
+
+export const getProverContractAddress = (chainId: number) => {
+  return PROVER_CONTRACT_ADDRESSES[chainId as ChainId];
+};
+
+export const STABLE_TOKENS = {
+  [sepolia.id]: MockUSDC,
+  [optimismSepolia.id]: MockUSDC,
+  [baseSepolia.id]: MockUSDC,
+  [polygonZkEvmTestnet.id]: MockUSDC,
+} satisfies Record<ChainId, FundibleToken>;
+
+export const getStableToken = (chainId: number) => {
+  return STABLE_TOKENS[chainId as ChainId];
 };

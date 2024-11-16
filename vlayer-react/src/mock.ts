@@ -130,6 +130,11 @@ export const shopItems = [
   },
 ] satisfies ShopItem[];
 
+export const pickMockParamsById = (id: string) => {
+  const hash = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return shopItems[hash % shopItems.length];
+};
+
 export const mockTradingItems = [
   shopItems[0],
   shopItems[1],
@@ -732,28 +737,34 @@ export const mockTlsProof = {
   notaryUrl: "https://notary.pse.dev/v0.1.0-alpha.5/",
 };
 
-export const mockProvingResult = [{
-  "seal": {
-      "verifierSelector": "0xdeafbeef",
-      "seal": [
-          "0xf174152de3732547617dc993d62372d5aa4972d42c809c81949bf31e7c54b34a",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000",
-          "0x0000000000000000000000000000000000000000000000000000000000000000"
+export const mockProvingResult = [
+  {
+    seal: {
+      verifierSelector: "0xdeafbeef",
+      seal: [
+        "0xf174152de3732547617dc993d62372d5aa4972d42c809c81949bf31e7c54b34a",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
       ],
-      "mode": 1
+      mode: 1,
+    },
+    callGuestId:
+      "0xc0f59f76de44b1700c2de89e0eeffbbad523e049b6beef55441f371811f62767",
+    length: 800,
+    callAssumptions: {
+      functionSelector: "0x1d9f8716",
+      proverContractAddress: "0x31abeca63e9ef7e20042b1ec7d01af34d36d9d3a",
+      settleBlockNumber: 7090830,
+      settleBlockHash:
+        "0xa25e3faa42f8fc08f6e4d35de152303456e4ef85558b70ed89f4fdd402d3beee",
+    },
   },
-  "callGuestId": "0xc0f59f76de44b1700c2de89e0eeffbbad523e049b6beef55441f371811f62767",
-  "length": 800,
-  "callAssumptions": {
-      "functionSelector": "0x1d9f8716",
-      "proverContractAddress": "0x31abeca63e9ef7e20042b1ec7d01af34d36d9d3a",
-      "settleBlockNumber": 7090830,
-      "settleBlockHash": "0xa25e3faa42f8fc08f6e4d35de152303456e4ef85558b70ed89f4fdd402d3beee"
-  }
-}, "wasabi_devcon", "0xf63Bdbc1cf221040E197Aad2A0925a5643fE3e85",1000000] as const
-
+  "wasabi_devcon",
+  "0xf63Bdbc1cf221040E197Aad2A0925a5643fE3e85",
+  1000000,
+] as const;
