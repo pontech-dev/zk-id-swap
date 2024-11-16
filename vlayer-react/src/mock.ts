@@ -1,6 +1,6 @@
 import { parseUnits } from "viem";
 import { FundibleToken, ShopItem } from "./types";
-import { optimismSepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 
 export const MockUSDC: FundibleToken = {
   address: "0x0000000000000000000000000000000000000000",
@@ -12,11 +12,13 @@ export const shopItems = [
   {
     type: "twitter",
     id: "1",
-    chainId: optimismSepolia.id,
+    chainId: sepolia.id,
     providerId: "@VitalikButerin",
-    name: "vitalik.eth",
-    thumbnail:
-      "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    name: "adfasdugustine",
+    description:
+      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
+    thumbnail: "https://fameswap.s3.amazonaws.com/listings/343006.jpeg",
+    bannerImg: "/public/dummy.png",
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
@@ -26,15 +28,21 @@ export const shopItems = [
       followers: 5482807,
       tweets: 20000,
     },
+    status: "selling",
+    createdDate: new Date(),
+    createdDatetime: "2022-01-01T00:00:00Z",
   },
   {
     type: "twitter",
     id: "2",
-    chainId: optimismSepolia.id,
+    chainId: sepolia.id,
     providerId: "@VitalikButerin",
-    name: "vitalik.eth",
-    thumbnail:
-      "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    name: "*****nRaini",
+    description:
+      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
+    thumbnail: "https://fameswap.s3.amazonaws.com/listings/343005.jpeg",
+    bannerImg: "/public/dummy.png",
+
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
@@ -44,15 +52,21 @@ export const shopItems = [
       followers: 5482807,
       tweets: 20000,
     },
+    status: "trading",
+    createdDate: new Date(),
+    createdDatetime: "2022-01-01T00:00:00Z",
   },
   {
     type: "twitter",
     id: "3",
-    chainId: optimismSepolia.id,
+    chainId: sepolia.id,
     providerId: "@VitalikButerin",
-    name: "vitalik.eth",
-    thumbnail:
-      "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    description:
+      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
+    name: " *****o2003",
+    thumbnail: "https://fameswap.s3.amazonaws.com/listings/343007.jpeg",
+    bannerImg: "/public/dummy.png",
+
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
@@ -62,15 +76,21 @@ export const shopItems = [
       followers: 5482807,
       tweets: 20000,
     },
+    status: "trading",
+    createdDate: new Date(),
+    createdDatetime: "2022-01-01T00:00:00Z",
   },
   {
     type: "twitter",
     id: "4",
-    chainId: optimismSepolia.id,
+    chainId: sepolia.id,
     providerId: "@VitalikButerin",
     name: "vitalik.eth",
+    description:
+      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
     thumbnail:
       "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    bannerImg: "/public/dummy.png",
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
@@ -80,15 +100,21 @@ export const shopItems = [
       followers: 5482807,
       tweets: 20000,
     },
+    status: "sold",
+    createdDate: new Date(),
+    createdDatetime: "2022-01-01T00:00:00Z",
   },
   {
     type: "twitter",
     id: "5",
-    chainId: optimismSepolia.id,
+    chainId: sepolia.id,
     providerId: "@VitalikButerin",
     name: "vitalik.eth",
+    description:
+      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
     thumbnail:
       "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+    bannerImg: "/public/dummy.png",
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
@@ -98,7 +124,15 @@ export const shopItems = [
       followers: 5482807,
       tweets: 20000,
     },
+    status: "selling",
+    createdDate: new Date(),
+    createdDatetime: "2022-01-01T00:00:00Z",
   },
+] satisfies ShopItem[];
+
+export const mockTradingItems = [
+  shopItems[0],
+  shopItems[1],
 ] satisfies ShopItem[];
 
 export const mockTlsProof = {

@@ -20,6 +20,12 @@ importers:
       '@dynamic-labs/sdk-react-core':
         specifier: ^3.6.1
         version: 3.6.3(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
+      '@headlessui/react':
+        specifier: ^2.2.0
+        version: 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@heroicons/react':
+        specifier: ^2.1.5
+        version: 2.1.5(react@18.3.1)
       '@hookform/resolvers':
         specifier: ^3.9.1
         version: 3.9.1(react-hook-form@7.53.2(react@18.3.1))
@@ -70,13 +76,13 @@ importers:
         version: 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@web3auth/modal':
         specifier: ^9.3.0
-        version: 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
+        version: 9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
       '@web3auth/wallet-services-plugin':
         specifier: ^9.3.0
         version: 9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@web3auth/web3auth-wagmi-connector':
         specifier: ^7.0.0
-        version: 7.0.0(@wagmi/core@2.14.6(@tanstack/query-core@5.60.5)(@types/react@18.3.12)(immer@10.1.1)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)))(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/base@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/modal@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10))(@web3auth/no-modal@9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
+        version: 7.0.0(@wagmi/core@2.14.6(@tanstack/query-core@5.60.5)(@types/react@18.3.12)(immer@10.1.1)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)))(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/base@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/modal@9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10))(@web3auth/no-modal@9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
       '@worldcoin/idkit':
         specifier: ^1.3.0
         version: 1.3.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(immer@10.1.1)(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
@@ -1351,6 +1357,12 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
+  '@floating-ui/react@0.26.28':
+    resolution: {integrity: sha512-yORQuuAtVpiRjpMhdc0wJj06b9JFjrYF4qp96j++v2NBpbi6SEGF7donUJ3TMieerQ6qVkAv1tgr7L4r5roTqw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
 
@@ -1365,6 +1377,18 @@ packages:
     peerDependencies:
       react: '>= 16.3.0'
       react-dom: '>= 16.3.0'
+
+  '@headlessui/react@2.2.0':
+    resolution: {integrity: sha512-RzCEg+LXsuI7mHiSomsu/gBJSjpupm6A1qIZ5sWjd7JhARNlMiSA4kKfJpCKwU9tE+zMRterhhrP74PvfJrpXQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^18 || ^19 || ^19.0.0-rc
+
+  '@heroicons/react@2.1.5':
+    resolution: {integrity: sha512-FuzFN+BsHa+7OxbvAERtgBTNeZpUjgM/MIizfVkSCL2/edriN0Hx/DWRCR//aPYwO5QX/YlgLGXk+E3PcfZwjA==}
+    peerDependencies:
+      react: '>= 16'
 
   '@hookform/resolvers@3.9.1':
     resolution: {integrity: sha512-ud2HqmGBM0P0IABqoskKWI6PEf6ZDDBZkFqe2Vnl+mTHCEHzr3ISjjZyCwTjC/qpL25JC9aIDkloQejvMeq0ug==}
@@ -2178,6 +2202,27 @@ packages:
       viem: 2.x
       wagmi: ^2.9.0
 
+  '@react-aria/focus@3.18.4':
+    resolution: {integrity: sha512-91J35077w9UNaMK1cpMUEFRkNNz0uZjnSwiyBCFuRdaVuivO53wNC9XtWSDNDdcO5cGy87vfJRVAiyoCn/mjqA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
+
+  '@react-aria/interactions@3.22.4':
+    resolution: {integrity: sha512-E0vsgtpItmknq/MJELqYJwib+YN18Qag8nroqwjk1qOnBa9ROIkUhWJerLi1qs5diXq9LHKehZDXRlwPvdEFww==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
+
+  '@react-aria/ssr@3.9.6':
+    resolution: {integrity: sha512-iLo82l82ilMiVGy342SELjshuWottlb5+VefO3jOQqQRNYnJBFpUSadswDPbRimSgJUZuFwIEYs6AabkP038fA==}
+    engines: {node: '>= 12'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
+
+  '@react-aria/utils@3.25.3':
+    resolution: {integrity: sha512-PR5H/2vaD8fSq0H/UB9inNbc8KDcVmW6fYAfSWkkn+OAdhTTMVKqXXrZuZBWyFfSD5Ze7VN6acr4hrOQm2bmrA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
+
   '@react-native-community/cli-clean@13.6.4':
     resolution: {integrity: sha512-nS1BJ+2Z+aLmqePxB4AYgJ+C/bgQt02xAgSYtCUv+lneRBGhL2tHRrK8/Iolp0y+yQoUtHHf4txYi90zGXLVfw==}
 
@@ -2275,6 +2320,16 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@react-stately/utils@3.10.4':
+    resolution: {integrity: sha512-gBEQEIMRh5f60KCm7QKQ2WfvhB2gLUr9b72sqUdIZ2EG+xuPgaIlCBeSicvjmjBvYZwOjoOEnmIkcx2GHp/HWw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
+
+  '@react-types/shared@3.25.0':
+    resolution: {integrity: sha512-OZSyhzU6vTdW3eV/mz5i6hQwQUhkRs7xwY2d1aqPvTdMe0+2cY7Fwp45PAiwYLEj73i9ro2FxF9qC4DvHGSCgQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
 
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     resolution: {integrity: sha512-lzD84av1ZQhYUS+jsGqJiCMaJO2dn9u+RTT9n9q6D3SaKVwWqv+7AoRKqBu19bkwyE+iFRl1ymr40QS90jVFYg==}
@@ -2492,6 +2547,9 @@ packages:
   '@stitches/core@1.2.8':
     resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
 
+  '@swc/helpers@0.5.15':
+    resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
+
   '@tailwindcss/container-queries@0.1.1':
     resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
     peerDependencies:
@@ -2531,6 +2589,12 @@ packages:
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
 
+  '@tanstack/react-virtual@3.10.9':
+    resolution: {integrity: sha512-OXO2uBjFqA4Ibr2O3y0YMnkrRWGVNqcvHQXmGvMu6IK8chZl3PrDxFXdGZ2iZkSrKh3/qUYoFqYe+Rx23RoU0g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   '@tanstack/router-devtools@1.81.10':
     resolution: {integrity: sha512-w5E4LFl6utlWQ9eeMcIhTTQh/HRGCcX7nVvkDvzr4HIqrcBcr5zp3LZKo/Fo2a2ze76x/vPKbCmRGjx+iybzmQ==}
     engines: {node: '>=12'}
@@ -2560,6 +2624,9 @@ packages:
 
   '@tanstack/store@0.5.5':
     resolution: {integrity: sha512-EOSrgdDAJExbvRZEQ/Xhh9iZchXpMN+ga1Bnk8Nmygzs8TfiE6hbzThF+Pr2G19uHL6+DTDTHhJ8VQiOd7l4tA==}
+
+  '@tanstack/virtual-core@3.10.9':
+    resolution: {integrity: sha512-kBknKOKzmeR7lN+vSadaKWXaLS0SZZG+oqpQ/k80Q6g9REn6zRHS/ZYdrIzHnpHgy/eWs00SujveUN/GJT2qTw==}
 
   '@tanstack/virtual-file-routes@1.81.9':
     resolution: {integrity: sha512-jV5mWJrsh3QXHpb/by6udSqwva0qK50uYHpIXvKsLaxnlbjbLfflfPjFyRWXbMtZsnzCjSUqp5pm5/p+Wpaerg==}
@@ -2988,8 +3055,8 @@ packages:
     peerDependencies:
       '@babel/runtime': 7.x
 
-  '@web3auth/modal@9.4.0':
-    resolution: {integrity: sha512-6kZp6WOwjWop6/0QLkzHY0DKHtSBQOyYPDkXpO+Afdr8kSI3tlEchHmj0JuHZYiYNelGappULWcYaxo9Y0QV6w==}
+  '@web3auth/modal@9.4.1':
+    resolution: {integrity: sha512-P1FvPf1Qos6WtLulG1kvkbmXAcflXEz9tHid7ejjfnMew0r6nMiaiO3r2JhlXt7n07U9J/qRiV+e7qDgvOOxRQ==}
     engines: {node: '>=18.x', npm: '>=9.x'}
     peerDependencies:
       '@babel/runtime': ^7.x
@@ -3011,8 +3078,8 @@ packages:
       '@web3auth/wallet-connect-v2-adapter':
         optional: true
 
-  '@web3auth/ui@9.4.0':
-    resolution: {integrity: sha512-vwBpNWUyvyQxVfhlv2+lwuyVANRbIcH2LFa4vPXW7dBNAwwaxQKb1OAo3CG2EnoZuLIyaf1jCcj9J0csxgRxWQ==}
+  '@web3auth/ui@9.4.1':
+    resolution: {integrity: sha512-Xd75ls0+uMFa24loaZxjUuRPOX8zUvISmR7umc76DwVacmhL6YfQtev85NbYSrlSURDCrhNqUEIvMmGU3pEr/g==}
     engines: {node: '>=18.x', npm: '>=9.x'}
     peerDependencies:
       '@babel/runtime': ^7.x
@@ -5991,6 +6058,9 @@ packages:
     resolution: {integrity: sha512-ulAk51I9UVUyJgxlv9M6lFot2WP3e7t8Kz9+IS6D4rVba1tR9kON+Ey69f+1R4Q8cd45Lod6a4IcJIxnzGc/zA==}
     engines: {node: '>=18'}
 
+  tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+
   tailwind-merge@2.5.4:
     resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
 
@@ -8081,6 +8151,14 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  '@floating-ui/react@0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@floating-ui/utils': 0.2.8
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tabbable: 6.2.0
+
   '@floating-ui/utils@0.2.8': {}
 
   '@hapi/hoek@9.3.0': {}
@@ -8094,6 +8172,19 @@ snapshots:
       '@babel/runtime': 7.26.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  '@headlessui/react@2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/focus': 3.18.4(react@18.3.1)
+      '@react-aria/interactions': 3.22.4(react@18.3.1)
+      '@tanstack/react-virtual': 3.10.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@heroicons/react@2.1.5(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
 
   '@hookform/resolvers@3.9.1(react-hook-form@7.53.2(react@18.3.1))':
     dependencies:
@@ -8957,6 +9048,37 @@ snapshots:
       - '@types/react'
       - babel-plugin-macros
 
+  '@react-aria/focus@3.18.4(react@18.3.1)':
+    dependencies:
+      '@react-aria/interactions': 3.22.4(react@18.3.1)
+      '@react-aria/utils': 3.25.3(react@18.3.1)
+      '@react-types/shared': 3.25.0(react@18.3.1)
+      '@swc/helpers': 0.5.15
+      clsx: 2.1.1
+      react: 18.3.1
+
+  '@react-aria/interactions@3.22.4(react@18.3.1)':
+    dependencies:
+      '@react-aria/ssr': 3.9.6(react@18.3.1)
+      '@react-aria/utils': 3.25.3(react@18.3.1)
+      '@react-types/shared': 3.25.0(react@18.3.1)
+      '@swc/helpers': 0.5.15
+      react: 18.3.1
+
+  '@react-aria/ssr@3.9.6(react@18.3.1)':
+    dependencies:
+      '@swc/helpers': 0.5.15
+      react: 18.3.1
+
+  '@react-aria/utils@3.25.3(react@18.3.1)':
+    dependencies:
+      '@react-aria/ssr': 3.9.6(react@18.3.1)
+      '@react-stately/utils': 3.10.4(react@18.3.1)
+      '@react-types/shared': 3.25.0(react@18.3.1)
+      '@swc/helpers': 0.5.15
+      clsx: 2.1.1
+      react: 18.3.1
+
   '@react-native-community/cli-clean@13.6.4':
     dependencies:
       '@react-native-community/cli-tools': 13.6.4
@@ -9245,6 +9367,15 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.12
 
+  '@react-stately/utils@3.10.4(react@18.3.1)':
+    dependencies:
+      '@swc/helpers': 0.5.15
+      react: 18.3.1
+
+  '@react-types/shared@3.25.0(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     dependencies:
       '@types/node': 18.19.64
@@ -9481,6 +9612,10 @@ snapshots:
 
   '@stitches/core@1.2.8': {}
 
+  '@swc/helpers@0.5.15':
+    dependencies:
+      tslib: 2.8.1
+
   '@tailwindcss/container-queries@0.1.1(tailwindcss@3.4.15)':
     dependencies:
       tailwindcss: 3.4.15
@@ -9517,6 +9652,12 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       use-sync-external-store: 1.2.2(react@18.3.1)
+
+  '@tanstack/react-virtual@3.10.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/virtual-core': 3.10.9
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   '@tanstack/router-devtools@1.81.10(@tanstack/react-router@1.81.10(@tanstack/router-generator@1.81.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -9561,6 +9702,8 @@ snapshots:
       - supports-color
 
   '@tanstack/store@0.5.5': {}
+
+  '@tanstack/virtual-core@3.10.9': {}
 
   '@tanstack/virtual-file-routes@1.81.9': {}
 
@@ -10685,14 +10828,14 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@web3auth/modal@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
+  '@web3auth/modal@9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@web3auth/auth-adapter': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@web3auth/base': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@web3auth/base-provider': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@web3auth/no-modal': 9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@web3auth/ui': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
+      '@web3auth/ui': 9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
       deepmerge: 4.3.1
     transitivePeerDependencies:
       - '@sentry/types'
@@ -10718,7 +10861,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@web3auth/ui@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
+  '@web3auth/ui@9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@toruslabs/http-helpers': 7.0.0(@babel/runtime@7.26.0)
@@ -10756,7 +10899,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  ? '@web3auth/web3auth-wagmi-connector@7.0.0(@wagmi/core@2.14.6(@tanstack/query-core@5.60.5)(@types/react@18.3.12)(immer@10.1.1)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)))(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/base@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/modal@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10))(@web3auth/no-modal@9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))'
+  ? '@web3auth/web3auth-wagmi-connector@7.0.0(@wagmi/core@2.14.6(@tanstack/query-core@5.60.5)(@types/react@18.3.12)(immer@10.1.1)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)))(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/base@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(@web3auth/modal@9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10))(@web3auth/no-modal@9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))'
   : dependencies:
       '@wagmi/core': 2.14.6(@tanstack/query-core@5.60.5)(@types/react@18.3.12)(immer@10.1.1)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))
       '@web3auth/auth-adapter': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -10764,7 +10907,7 @@ snapshots:
       '@web3auth/no-modal': 9.4.0(@babel/runtime@7.26.0)(@web3auth/auth-adapter@9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       viem: 2.21.45(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
     optionalDependencies:
-      '@web3auth/modal': 9.4.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
+      '@web3auth/modal': 9.4.1(@babel/runtime@7.26.0)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.0(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
 
   '@web3auth/ws-embed@3.1.0(@babel/runtime@7.26.0)(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
@@ -14015,6 +14158,8 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   system-architecture@0.1.0: {}
+
+  tabbable@6.2.0: {}
 
   tailwind-merge@2.5.4: {}
 
