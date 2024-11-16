@@ -15,16 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatTwitterHandle } from "@/lib/format";
-<<<<<<< HEAD
-import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
-import { getSigner } from "@dynamic-labs/ethers-v6";
 import webProofProver from "../../../out/WebProofProver.sol/WebProofProver.json";
 import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier.json";
-import { Contract } from "ethers";
-=======
-import webProofProver from "../../../out/WebProofProver.sol/WebProofProver.json";
-import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier.json";
->>>>>>> 89541cde897858df43fa1b0a2a3faeda029a3f5b
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
