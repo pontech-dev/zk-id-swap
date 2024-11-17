@@ -9,6 +9,7 @@ import {
   useContractReads,
   usePublicClient,
   useReadContract,
+  useReadContracts,
 } from "wagmi";
 
 const listedEvent = parseAbiItem(
@@ -30,6 +31,8 @@ export const useShopItems = () => {
         toBlock: block.number,
       });
 
+      console.log("logs", logs);
+
       const results = await client.multicall({
         contracts: logs
           .filter((log) => !!log.args.username)
@@ -43,6 +46,8 @@ export const useShopItems = () => {
               }) as const
           ),
       });
+
+      console.log("results", results);
 
       const items = results
         .map((result, index) => {
@@ -92,14 +97,15 @@ export const useShopItems = () => {
 
 export const useShopItems2 = () => {
   const chainId = useChainId();
-  const { data: itemIds } = useReadContract({
+
+  const { data: itemIds, error } = useReadContract({
     address: getEscrowContractAddress(chainId),
     abi: ZK_VERIFIED_ESCROW_ABI,
     functionName: "listUsernames",
-    args: [],
   });
-  const { data: results } = useContractReads({
-    contracts: itemIds?.map(
+  const a = ["inariinaina", ...(itemIds ?? [])];
+  const { data: results } = useReadContracts({
+    contracts: a.map(
       (id) =>
         ({
           address: getEscrowContractAddress(chainId),
@@ -110,9 +116,11 @@ export const useShopItems2 = () => {
     ),
   });
 
+  console.log("results", results);
+
   const items = results
     ?.map((result) => {
-      if (!result.result) return null;
+      if (!result.result || !result.result[0]) return null;
 
       const [username, price, seller, status] = result.result;
       const mock = pickMockParamsById(username);
@@ -143,7 +151,7 @@ export const useShopItems2 = () => {
     })
     .filter((item) => !!item);
 
-  return items;
+  return { items };
 };
 
 export const useShopItem = (chainId: number, id: string) => {
@@ -161,7 +169,7 @@ export const useShopItem2 = (chainId: number, id: string) => {
     address: getEscrowContractAddress(chainId),
     abi: ZK_VERIFIED_ESCROW_ABI,
     functionName: "listings",
-    args: ["wasm"],
+    args: [id],
   });
 
   console.log("data", data);

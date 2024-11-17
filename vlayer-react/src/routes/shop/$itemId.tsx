@@ -103,6 +103,7 @@ const parseItemId = (itemId: string) => {
 function RouteComponent() {
   const { itemId } = Route.useParams();
   const { chainId, id } = parseItemId(itemId);
+  console.log("chainId", chainId, id);
   const { data: shopItem } = useShopItem2(chainId, id);
   console.log("shopItem", shopItem);
 
