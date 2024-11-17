@@ -21,7 +21,7 @@ contract ZkVerifiedEscrow is Verifier {
     address public usdcToken;
     mapping(string => Listing) public listings; // username => Listing
     mapping(string => address) public escrow; // username => buyer
-	string[] public listUsernames;
+	string[] private _listUsernames;
 
     event Listed(string indexed username, uint256 price, address indexed seller);
     event Deposited(string indexed username, uint256 amount, address indexed buyer);
@@ -30,6 +30,10 @@ contract ZkVerifiedEscrow is Verifier {
     constructor(address _prover, address _usdcToken) {
         prover = _prover;
         usdcToken = _usdcToken;
+    }
+
+    function listUsernames() external view returns (string[] memory) {
+        return _listUsernames;
     }
 
     function list(Proof calldata, string memory username, address account, uint256 price)
@@ -45,7 +49,7 @@ contract ZkVerifiedEscrow is Verifier {
             status: ListingStatus.LISTING
         });
 
-		listUsernames.push(username);
+		_listUsernames.push(username);
 
         emit Listed(username, price, msg.sender);
     }

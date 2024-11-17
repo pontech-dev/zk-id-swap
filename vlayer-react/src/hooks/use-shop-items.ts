@@ -4,7 +4,12 @@ import { pickMockParamsById, shopItems } from "@/mock";
 import { ShopItem } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { parseAbiItem, zeroAddress } from "viem";
-import { useChainId, usePublicClient, useReadContract } from "wagmi";
+import {
+  useChainId,
+  useContractReads,
+  usePublicClient,
+  useReadContract,
+} from "wagmi";
 
 const listedEvent = parseAbiItem(
   "event Listed(string indexed username, uint256 price, address indexed seller)"
@@ -81,6 +86,62 @@ export const useShopItems = () => {
     },
     enabled: !!chainId,
   });
+
+  return items;
+};
+
+export const useShopItems2 = () => {
+  const chainId = useChainId();
+  const { data: itemIds } = useReadContract({
+    address: getEscrowContractAddress(chainId),
+    abi: ZK_VERIFIED_ESCROW_ABI,
+    functionName: "listUsernames",
+    args: [],
+  });
+  const { data: results } = useContractReads({
+    contracts: itemIds?.map(
+      (id) =>
+        ({
+          address: getEscrowContractAddress(chainId),
+          abi: ZK_VERIFIED_ESCROW_ABI,
+          functionName: "listings",
+          args: [id],
+        }) as const
+    ),
+  });
+
+  const items = results
+    ?.map((result) => {
+      if (!result.result) return null;
+
+      const [username, price, seller, status] = result.result;
+      const mock = pickMockParamsById(username);
+      const createdDate = new Date();
+
+      return {
+        type: "twitter",
+        id: username,
+        seller: seller,
+        chainId,
+        providerId: `@${username}`,
+        name: username,
+        description: mock.description,
+        thumbnail: mock.thumbnail,
+        bannerImg: mock.bannerImg,
+        price: {
+          uint: price,
+          token: getStableToken(chainId),
+        },
+        metadata: {
+          followers: mock.metadata.followers,
+          tweets: mock.metadata.tweets,
+        },
+        status: status === 0 ? "selling" : status === 1 ? "trading" : "sold",
+        createdDate,
+        createdDatetime: createdDate.toISOString(),
+      } satisfies ShopItem;
+    })
+    .filter((item) => !!item);
 
   return items;
 };

@@ -32,7 +32,7 @@ export const getChainImage = (chainId: number) => {
 };
 
 export const ESCROW_CONTRACT_ADDRESSES = {
-  [sepolia.id]: "0x9c450d72fecd4700e7a08d7ce0c60541a7aa6bd9",
+  [sepolia.id]: "0xd707c84fb92c487b1d3b0428d5a5f3dca7fc2d8b",
   [optimismSepolia.id]: "0x0000000000000000000000000000000000000000",
   [baseSepolia.id]: "0x0000000000000000000000000000000000000000",
   [polygonZkEvmTestnet.id]: "0x0000000000000000000000000000000000000000",
@@ -43,7 +43,7 @@ export const getEscrowContractAddress = (chainId: number) => {
 };
 
 export const PROVER_CONTRACT_ADDRESSES = {
-  [sepolia.id]: "0xd9a9364b3c1031685e68b821ceeb48ebc86685a0",
+  [sepolia.id]: "0x4d350501360771a3c47ce1f4d2d6a46af1ea3dfd",
   [optimismSepolia.id]: "0x0000000000000000000000000000000000000000",
   [baseSepolia.id]: "0x0000000000000000000000000000000000000000",
   [polygonZkEvmTestnet.id]: "0x0000000000000000000000000000000000000000",

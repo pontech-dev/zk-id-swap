@@ -99,6 +99,13 @@ export const ZK_VERIFIED_ESCROW_ABI = [
   },
   {
     type: "function",
+    name: "listUsernames",
+    inputs: [],
+    outputs: [{ name: "", type: "string[]", internalType: "string[]" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
     name: "listings",
     inputs: [{ name: "", type: "string", internalType: "string" }],
     outputs: [

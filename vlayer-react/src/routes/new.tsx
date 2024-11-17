@@ -40,6 +40,10 @@ import {
   useWriteContract,
 } from "wagmi";
 import { Abi } from "viem";
+import {
+  getEscrowContractAddress,
+  getProverContractAddress,
+} from "@/constants";
 
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
@@ -86,7 +90,7 @@ function RouteComponent() {
 
     const webProof = await provider.getWebProof({
       proverCallCommitment: {
-        address: import.meta.env.VITE_PROVER_ADDRESS,
+        address: getProverContractAddress(chainId),
         proverAbi: webProofProver.abi as Abi,
         chainId,
         functionName: "main",
@@ -116,7 +120,7 @@ function RouteComponent() {
       tls_proof: tlsProof,
       notary_pub_key: notaryPubKey,
     };
-    console.log(webProof, import.meta.env);
+
     const vlayer = createVlayerClient({
       url: import.meta.env.VITE_PROVER_URL,
     });
@@ -134,7 +138,7 @@ function RouteComponent() {
 
     console.log("Generating proof...");
     const hash = await vlayer.prove({
-      address: import.meta.env.VITE_PROVER_ADDRESS,
+      address: getProverContractAddress(chainId),
       functionName: "main",
       proverAbi: webProofProver.abi as Abi,
       args: [
@@ -163,7 +167,7 @@ function RouteComponent() {
 
     try {
       const result = await writeContractAsync({
-        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        address: getEscrowContractAddress(chainId),
         abi: webProofVerifier.abi,
         functionName: "verify",
         args: [provingResult[0], provingResult[1], provingResult[2]],
@@ -177,7 +181,7 @@ function RouteComponent() {
   }
 
   async function listIDButton() {
-    if (!provingResult) return;
+    if (!provingResult || !client) return;
     isDefined(provingResult, "Proving result is undefined");
     const priceUsd = form.getValues("priceUsd");
     if (!priceUsd || priceUsd <= 0) {
@@ -190,7 +194,7 @@ function RouteComponent() {
     console.log(ZkVerifiedEscrow.abi);
     try {
       const result = await writeContractAsync({
-        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        address: getEscrowContractAddress(chainId),
         abi: ZkVerifiedEscrow.abi,
         functionName: "list",
         args: [provingResult[0], provingResult[1], provingResult[2], amount],
@@ -204,10 +208,12 @@ function RouteComponent() {
 
   async function approveUSDC() {
     const tokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
-    const spender = import.meta.env.VITE_VERIFIER_ADDRESS;
+    const spender = getEscrowContractAddress(chainId);
     const priceUsd = form.getValues("priceUsd");
     const amount = parseUnits(priceUsd.toString(), 6);
     console.log({ amount });
+
+    if (!client) return;
 
     try {
       const result = await writeContractAsync({
@@ -224,7 +230,7 @@ function RouteComponent() {
   }
 
   async function depositButton() {
-    if (!provingResult) return;
+    if (!provingResult || !client) return;
     isDefined(provingResult, "Proving result is undefined");
     const priceUsd = form.getValues("priceUsd");
     if (!priceUsd || priceUsd <= 0) {
@@ -237,7 +243,7 @@ function RouteComponent() {
     console.log(ZkVerifiedEscrow.abi);
     try {
       const result = await writeContractAsync({
-        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        address: getEscrowContractAddress(chainId),
         abi: ZkVerifiedEscrow.abi,
         functionName: "deposit",
         args: [provingResult[1], amount],
@@ -250,7 +256,7 @@ function RouteComponent() {
   }
 
   async function withdrawButton() {
-    if (!provingResult) return;
+    if (!provingResult || !client) return;
     isDefined(provingResult, "Proving result is undefined");
     const priceUsd = form.getValues("priceUsd");
     if (!priceUsd || priceUsd <= 0) {
@@ -263,7 +269,7 @@ function RouteComponent() {
     console.log(ZkVerifiedEscrow.abi);
     try {
       const result = await writeContractAsync({
-        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        address: getEscrowContractAddress(chainId),
         abi: ZkVerifiedEscrow.abi,
         functionName: "withdraw",
         args: [provingResult[0], provingResult[1], provingResult[2], amount],
