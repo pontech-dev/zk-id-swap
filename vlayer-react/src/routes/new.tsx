@@ -79,6 +79,8 @@ function RouteComponent() {
     typeof mockProvingResult | null
   >(mockProvingResult);
 
+  const [proofGenerated, setProofGenerated] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -144,7 +146,7 @@ function RouteComponent() {
       args: [
         { webProofJson: JSON.stringify(webProof) },
         account.address,
-        amount,
+        parseUnits("20", 6),
       ],
       chainId,
     });
@@ -153,6 +155,7 @@ function RouteComponent() {
     )) as typeof mockProvingResult;
     setProvingResult(provingResult);
     console.log("Proof generated!", provingResult);
+    setProofGenerated(true)
     form.setValue("twitterId", formatTwitterHandle(provingResult[1]));
   }
 
@@ -283,7 +286,7 @@ function RouteComponent() {
 
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
-      <Button className="mt-12" onClick={setupRequestProveButton}>
+      {/* <Button className="mt-12" onClick={setupRequestProveButton}>
         Create Webproof of your X account
       </Button>
       <Button className="mt-12" onClick={setupVProverButton}>
@@ -303,81 +306,28 @@ function RouteComponent() {
       </Button>
       <Button className="mt-12" onClick={withdrawButton}>
         Withdraw
-      </Button>
+      </Button> */}
       <Form {...form}>
         <div className="divide-y divide-stone/5">
-          <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-            <div>
-              <h2 className="text-base/7 font-semibold">Account Information</h2>
-              <p className="mt-1 text-sm/6 text-gray-400">
-                Use a permanent address where you can receive mail.
+          <div className="grid max-w-7xl grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 px-10 py-16 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center justify-center gap-y-6">
+              <Button
+                className="px-6 py-4"
+                onClick={setupRequestProveButton}
+              >
+                Open Sidebar
+              </Button>
+              <p className="mt-2 text-sm text-gray-400 text-center">
+                You need a Vlayer browser extension to generate a webproof
               </p>
+              <Button
+                className="px-6 py-4"
+                onClick={setupVProverButton}
+              >
+                Create Web Proof
+              </Button>
             </div>
-
-            <form className="md:col-span-2">
-              <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-                <div className="col-span-full flex items-center gap-x-8">
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="size-24 flex-none rounded-lg bg-gray-800 object-cover"
-                  />
-                  <div>
-                    {/* <button
-                      type="button"
-                      className="rounded-md bg-black/10 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-black/20"
-                    >
-                      Change avatar
-                    </button> */}
-                    <Button className="mt-12" onClick={setupRequestProveButton}>
-                      Create Webproof of your X account
-                    </Button>
-                    <Button className="mt-12" onClick={setupVProverButton}>
-                      Call Vlayer Prover
-                    </Button>
-                    <p className="mt-2 text-xs/5 text-gray-400">
-                      You need a Vlayer browser extension to generate a webproof
-                    </p>
-                  </div>
-                </div>
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Your public display name
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Your public display name
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
+              <form className="flex flex-col gap-y-8">
                 <div className="col-span-full">
                   <FormField
                     control={form.control}
@@ -390,53 +340,6 @@ function RouteComponent() {
                         </FormControl>
                         <FormDescription>
                           Your Twitter handle (starts with @)
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="followers"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Followers Count</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Number of Twitter followers
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="tweets"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tweet Count</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Total number of tweets
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -464,11 +367,10 @@ function RouteComponent() {
                     )}
                   />
                 </div>
-              </div>
-              <Button className="mt-12" onClick={setupVerifyButton}>
-                List Your Account
-              </Button>
-            </form>
+                <Button className="mt-12 px-6 py-4 text-lg font-semibold" onClick={listIDButton}>
+                  List Your Account
+                </Button>
+              </form>
           </div>
         </div>
       </Form>
