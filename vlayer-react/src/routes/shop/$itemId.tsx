@@ -1,11 +1,12 @@
 import { useShopItem2 } from "@/hooks/use-shop-items";
 import { formatShopItemPrice } from "@/lib/format";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 // import { useChains } from "wagmi";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
+import { useChatActions, usePushClient } from "@/hooks/push-chat";
 
 const product = {
   version: { name: "1.0", date: "June 5, 2021", datetime: "2021-06-05" },
@@ -103,12 +104,29 @@ const parseItemId = (itemId: string) => {
 function RouteComponent() {
   const { itemId } = Route.useParams();
   const { chainId, id } = parseItemId(itemId);
-  console.log("chainId", chainId, id);
   const { data: shopItem } = useShopItem2(chainId, id);
-  console.log("shopItem", shopItem);
+  const {
+    pushClient,
+    isLoading: isLoadingPushClient,
+    initializePushClient,
+  } = usePushClient();
+  const { sendMessage } = useChatActions();
+  const router = useRouter();
 
-  // const chains = useChains();
-  // const chain = chains.find((c) => c.id === chainId);
+  const [isLoadingSendMessage, setIsLoadingSendMessage] = useState(false);
+
+  const handleOpenChat = async () => {
+    try {
+      if (!shopItem?.seller) return;
+      setIsLoadingSendMessage(true);
+      await sendMessage(shopItem.seller, "Hello, how are you?");
+      router.navigate({ to: "/chat" });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoadingSendMessage(false);
+    }
+  };
 
   if (!shopItem) return null;
 
@@ -204,12 +222,25 @@ function RouteComponent() {
                 Pay{" "}
                 {`${formatShopItemPrice(shopItem.price)} ${shopItem.price.token.symbol}`}
               </button>
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-              >
-                Chat to Seller
-              </button>
+              {!pushClient.data ? (
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 disabled:opacity-50"
+                  onClick={initializePushClient}
+                  disabled={isLoadingPushClient}
+                >
+                  Enable Push To Chat
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleOpenChat}
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 disabled:opacity-50"
+                  disabled={isLoadingSendMessage}
+                >
+                  Chat to Seller
+                </button>
+              )}
             </div>
 
             <div className="mt-10 border-t border-gray-200 pt-10">

@@ -8,7 +8,7 @@ export const MockUSDC: FundibleToken = {
   symbol: "USDC",
 };
 
-export const shopItems = [
+export const mockShopItems = [
   {
     type: "twitter",
     id: "1",
@@ -132,12 +132,12 @@ export const shopItems = [
 
 export const pickMockParamsById = (id: string) => {
   const hash = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return shopItems[hash % shopItems.length];
+  return mockShopItems[hash % mockShopItems.length];
 };
 
 export const mockTradingItems = [
-  shopItems[0],
-  shopItems[1],
+  mockShopItems[0],
+  mockShopItems[1],
 ] satisfies ShopItem[];
 
 export const mockTlsProof = {

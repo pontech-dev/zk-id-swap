@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useShopItem } from "@/hooks/use-shop-items";
+import { useShopItem2 } from "@/hooks/use-shop-items";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { formatShopItemPrice } from "@/lib/format";
 
@@ -16,7 +16,7 @@ function RouteComponent() {
   const { itemId } = Route.useParams();
 
   const { chainId, id } = parseItemId(itemId);
-  const { data: shopItem } = useShopItem(chainId, id);
+  const { data: shopItem } = useShopItem2(chainId, id);
   if (!shopItem) return null;
 
   return (

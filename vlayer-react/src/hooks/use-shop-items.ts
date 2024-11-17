@@ -1,6 +1,6 @@
 import { getEscrowContractAddress, getStableToken } from "@/constants";
 import { ZK_VERIFIED_ESCROW_ABI } from "@/lib/abis";
-import { pickMockParamsById, shopItems } from "@/mock";
+import { pickMockParamsById, mockShopItems } from "@/mock";
 import { ShopItem } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { parseAbiItem, zeroAddress } from "viem";
@@ -103,6 +103,7 @@ export const useShopItems2 = () => {
     abi: ZK_VERIFIED_ESCROW_ABI,
     functionName: "listUsernames",
   });
+  console.log("itemIds", itemIds, error);
   const a = ["inariinaina", ...(itemIds ?? [])];
   const { data: results } = useReadContracts({
     contracts: a.map(
@@ -152,16 +153,6 @@ export const useShopItems2 = () => {
     .filter((item) => !!item);
 
   return { items };
-};
-
-export const useShopItem = (chainId: number, id: string) => {
-  const query = useQuery({
-    queryKey: ["shopItem", chainId, id],
-    queryFn: () =>
-      shopItems.find((item) => item.id === id && item.chainId === chainId),
-  });
-
-  return query;
 };
 
 export const useShopItem2 = (chainId: number, id: string) => {

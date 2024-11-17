@@ -2,8 +2,8 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { SidebarTrigger } from "../ui/sidebar";
 import MoonPayButton from "../ui/moonpay";
-import WorldcoinButton from '../ui/worldcoin';
-import { useAccount } from 'wagmi';
+import WorldcoinButton from "../ui/worldcoin";
+import { useAccount } from "wagmi";
 
 export const Header = () => {
   const { isConnected } = useAccount();
@@ -12,7 +12,7 @@ export const Header = () => {
       <h1 className="text-xl sm:text-2xl font-semibold flex-1 block md:hidden">
         ZK ID Swap
       </h1>
-      <nav className="flex items-center justify-end gap-4">
+      <nav className="flex items-center justify-end gap-4 flex-shrink-0">
         {isConnected && <WorldcoinButton />}
         {isConnected && <MoonPayButton />}
         <ConnectButton />

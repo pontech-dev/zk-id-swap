@@ -1,6 +1,7 @@
 import { ShopItemCard } from "@/components/shop-item-card";
 import { Button } from "@/components/ui/button";
 import { useShopItems2 } from "@/hooks/use-shop-items";
+import { mockShopItems } from "@/mock";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 
@@ -18,7 +19,7 @@ function Index() {
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {shopItems.items?.map((item) => (
+        {[...(shopItems.items ?? []), ...mockShopItems]?.map((item) => (
           <ShopItemCard item={item} href={`/shop/${item.chainId}:${item.id}`} />
         ))}
       </div>
