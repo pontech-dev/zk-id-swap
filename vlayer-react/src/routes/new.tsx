@@ -367,10 +367,10 @@ function RouteComponent() {
                     )}
                   />
                 </div>
-                <Button className="mt-12 px-6 py-4 text-lg font-semibold" onClick={listIDButton}>
+              </form>
+              <Button className="mt-12 px-6 py-4 text-lg font-semibold" onClick={listIDButton}>
                   List Your Account
                 </Button>
-              </form>
           </div>
         </div>
       </Form>
