@@ -15,8 +15,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatTwitterHandle } from "@/lib/format";
-import webProofProver from "../../../out/WebProofProver.sol/WebProofProver.json";
-import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier.json";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { getSigner } from "@dynamic-labs/ethers-v6";
+import webProofProver from "../../../out/WebProofProver.sol/WebProofProver";
+import webProofVerifier from "../../../out/WebProofVerifier.sol/WebProofVerifier";
+import ZkVerifiedEscrow from "../../../out/ZkVerifiedEscrow.sol/ZkVerifiedEscrow";
+import { parseUnits, Contract } from "ethers";
+import USDCAbi from "../abi//usdc_abi.json";
+
 import { mockTlsProof, mockProvingResult } from "@/mock";
 
 import {
@@ -34,6 +40,10 @@ import {
   useWriteContract,
 } from "wagmi";
 import { Abi } from "viem";
+import {
+  getEscrowContractAddress,
+  getProverContractAddress,
+} from "@/constants";
 
 export const Route = createFileRoute("/new")({
   component: RouteComponent,
@@ -82,7 +92,7 @@ function RouteComponent() {
 
     const webProof = await provider.getWebProof({
       proverCallCommitment: {
-        address: import.meta.env.VITE_PROVER_ADDRESS,
+        address: getProverContractAddress(chainId),
         proverAbi: webProofProver.abi as Abi,
         chainId,
         functionName: "main",
@@ -112,17 +122,32 @@ function RouteComponent() {
       tls_proof: tlsProof,
       notary_pub_key: notaryPubKey,
     };
-    console.log(webProof, import.meta.env);
+
     const vlayer = createVlayerClient({
       url: import.meta.env.VITE_PROVER_URL,
     });
 
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+
+    console.log({ priceUsd, type: typeof priceUsd });
+
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+
     console.log("Generating proof...");
     const hash = await vlayer.prove({
-      address: import.meta.env.VITE_PROVER_ADDRESS,
+      address: getProverContractAddress(chainId),
       functionName: "main",
       proverAbi: webProofProver.abi as Abi,
-      args: [{ webProofJson: JSON.stringify(webProof) }, account.address],
+      args: [
+        { webProofJson: JSON.stringify(webProof) },
+        account.address,
+        parseUnits("20", 6),
+      ],
       chainId,
     });
     const provingResult = (await vlayer.waitForProvingResult(
@@ -145,7 +170,7 @@ function RouteComponent() {
 
     try {
       const result = await writeContractAsync({
-        address: import.meta.env.VITE_VERIFIER_ADDRESS,
+        address: getEscrowContractAddress(chainId),
         abi: webProofVerifier.abi,
         functionName: "verify",
         args: [provingResult[0], provingResult[1], provingResult[2]],
@@ -158,8 +183,130 @@ function RouteComponent() {
     }
   }
 
+  async function listIDButton() {
+    if (!provingResult || !client) return;
+    isDefined(provingResult, "Proving result is undefined");
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+    console.log({ priceUsd, type: typeof priceUsd });
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+    console.log(ZkVerifiedEscrow.abi);
+    try {
+      const result = await writeContractAsync({
+        address: getEscrowContractAddress(chainId),
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "list",
+        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
+  async function approveUSDC() {
+    const tokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
+    const spender = getEscrowContractAddress(chainId);
+    const priceUsd = form.getValues("priceUsd");
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log({ amount });
+
+    if (!client) return;
+
+    try {
+      const result = await writeContractAsync({
+        address: tokenAddress,
+        abi: USDCAbi,
+        functionName: "approve",
+        args: [spender, amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Approval successful:", receipt);
+    } catch (error) {
+      console.error("Approval failed:", error);
+    }
+  }
+
+  async function depositButton() {
+    if (!provingResult || !client) return;
+    isDefined(provingResult, "Proving result is undefined");
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+    console.log({ priceUsd, type: typeof priceUsd });
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+    console.log(ZkVerifiedEscrow.abi);
+    try {
+      const result = await writeContractAsync({
+        address: getEscrowContractAddress(chainId),
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "deposit",
+        args: [provingResult[1], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
+  async function withdrawButton() {
+    if (!provingResult || !client) return;
+    isDefined(provingResult, "Proving result is undefined");
+    const priceUsd = form.getValues("priceUsd");
+    if (!priceUsd || priceUsd <= 0) {
+      console.error("Invalid price");
+      return;
+    }
+    console.log({ priceUsd, type: typeof priceUsd });
+    const amount = parseUnits(priceUsd.toString(), 6);
+    console.log(amount.toString());
+    console.log(ZkVerifiedEscrow.abi);
+    try {
+      const result = await writeContractAsync({
+        address: getEscrowContractAddress(chainId),
+        abi: ZkVerifiedEscrow.abi,
+        functionName: "withdraw",
+        args: [provingResult[0], provingResult[1], provingResult[2], amount],
+      });
+      const receipt = await client.waitForTransactionReceipt({ hash: result });
+      console.log("Transaction successful:", receipt);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  }
+
   return (
     <main className="w-full max-w-screen-md mx-auto p-4">
+      {/* <Button className="mt-12" onClick={setupRequestProveButton}>
+        Create Webproof of your X account
+      </Button>
+      <Button className="mt-12" onClick={setupVProverButton}>
+        Call Vlayer Prover
+      </Button>
+      <Button className="mt-12" onClick={setupVerifyButton}>
+        Call Vlayer Verifier
+      </Button>
+      <Button className="mt-12" onClick={listIDButton}>
+        List
+      </Button>
+      <Button className="mt-12" onClick={approveUSDC}>
+        Approve USDC
+      </Button>
+      <Button className="mt-12" onClick={depositButton}>
+        Deposit
+      </Button>
+      <Button className="mt-12" onClick={withdrawButton}>
+        Withdraw
+      </Button> */}
       <Form {...form}>
         <div className="divide-y divide-stone/5">
           <div className="grid max-w-7xl grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 px-10 py-16 sm:px-6 lg:px-8">
@@ -180,7 +327,6 @@ function RouteComponent() {
                 Create Web Proof
               </Button>
             </div>
-            {proofGenerated && (
               <form className="flex flex-col gap-y-8">
                 <div className="col-span-full">
                   <FormField
@@ -221,11 +367,10 @@ function RouteComponent() {
                     )}
                   />
                 </div>
-                <Button className="mt-12 px-6 py-4 text-lg font-semibold">
+                <Button className="mt-12 px-6 py-4 text-lg font-semibold" onClick={listIDButton}>
                   List Your Account
                 </Button>
               </form>
-            )}
           </div>
         </div>
       </Form>

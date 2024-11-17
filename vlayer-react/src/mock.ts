@@ -130,6 +130,11 @@ export const shopItems = [
   },
 ] satisfies ShopItem[];
 
+export const pickMockParamsById = (id: string) => {
+  const hash = id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return shopItems[hash % shopItems.length];
+};
+
 export const mockTradingItems = [
   shopItems[0],
   shopItems[1],
@@ -737,7 +742,7 @@ export const mockProvingResult = [
     seal: {
       verifierSelector: "0xdeafbeef",
       seal: [
-        "0x4a991bf7b196b1630aa529c94631c8d4640b5f720234c40b198e3b0590e85ed1",
+        "0xf174152de3732547617dc993d62372d5aa4972d42c809c81949bf31e7c54b34a",
         "0x0000000000000000000000000000000000000000000000000000000000000000",
         "0x0000000000000000000000000000000000000000000000000000000000000000",
         "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -750,15 +755,16 @@ export const mockProvingResult = [
     },
     callGuestId:
       "0xc0f59f76de44b1700c2de89e0eeffbbad523e049b6beef55441f371811f62767",
-    length: 768,
+    length: 800,
     callAssumptions: {
-      functionSelector: "0xc822d5ef",
-      proverContractAddress: "0x99832b7b1b560db8e43c07b9f52ce696939428c6",
-      settleBlockNumber: 19983639,
+      functionSelector: "0x1d9f8716",
+      proverContractAddress: "0x31abeca63e9ef7e20042b1ec7d01af34d36d9d3a",
+      settleBlockNumber: 7090830,
       settleBlockHash:
-        "0xe1447ea46c6c074cb710b147ac8ccd1862fe7889c8c58577a88a497c70aac38a",
+        "0xa25e3faa42f8fc08f6e4d35de152303456e4ef85558b70ed89f4fdd402d3beee",
     },
   },
-  "inariinaina",
-  "0x32d1540b7A276905f91499dB886C3Fa60C8c7eDc",
+  "wasabi_devcon",
+  "0xf63Bdbc1cf221040E197Aad2A0925a5643fE3e85",
+  1000000,
 ] as const;
