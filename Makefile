@@ -9,4 +9,3 @@ install:
 .PHONY: deploy-testnet
 deploy-testnet:
 	cd vlayer && bun run deploy:testnet
-
