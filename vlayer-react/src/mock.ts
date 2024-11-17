@@ -13,24 +13,24 @@ export const shopItems = [
     type: "twitter",
     id: "1",
     chainId: sepolia.id,
-    providerId: "@VitalikButerin",
-    name: "adfasdugustine",
+    providerId: "@Twitter",
+    name: "hoge.eth",
     description:
-      "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
-    thumbnail: "https://fameswap.s3.amazonaws.com/listings/343006.jpeg",
-    bannerImg: "/public/dummy.png",
+      "tekitouna purofi-ruga nyuuryoku sareteiruyo",
+    thumbnail: "https://pbs.twimg.com/profile_images/1363970101481988097/h_2wmoh7_400x400.png",
+    bannerImg: "/public/dummy-1.png",
     price: {
       token: MockUSDC,
       uint: parseUnits("100", 6),
     },
     seller: "0x0000000000000000000000000000000000000000",
     metadata: {
-      followers: 5482807,
-      tweets: 20000,
+      followers: 434207,
+      tweets: 5234523,
     },
     status: "selling",
     createdDate: new Date(),
-    createdDatetime: "2022-01-01T00:00:00Z",
+    createdDatetime: "2024-11-16T00:00:00Z",
   },
   {
     type: "twitter",
@@ -45,7 +45,7 @@ export const shopItems = [
 
     price: {
       token: MockUSDC,
-      uint: parseUnits("100", 6),
+      uint: parseUnits("2000", 6),
     },
     seller: "0x0000000000000000000000000000000000000000",
     metadata: {
@@ -69,7 +69,7 @@ export const shopItems = [
 
     price: {
       token: MockUSDC,
-      uint: parseUnits("100", 6),
+      uint: parseUnits("1200", 6),
     },
     seller: "0x0000000000000000000000000000000000000000",
     metadata: {
@@ -93,7 +93,7 @@ export const shopItems = [
     bannerImg: "/public/dummy.png",
     price: {
       token: MockUSDC,
-      uint: parseUnits("100", 6),
+      uint: parseUnits("9999", 6),
     },
     seller: "0x0000000000000000000000000000000000000000",
     metadata: {
@@ -109,15 +109,15 @@ export const shopItems = [
     id: "5",
     chainId: sepolia.id,
     providerId: "@VitalikButerin",
-    name: "vitalik.eth",
+    name: "shinbink",
     description:
       "Web3 enthusiast | Blockchain developer | Exploring the future of decentralized systems",
     thumbnail:
-      "https://pbs.twimg.com/profile_images/1748153260203229184/sXJIGMBk_400x400.jpg",
+      "https://pbs.twimg.com/profile_images/1611438735174008833/9e5ZJ-ht_400x400.jpg",
     bannerImg: "/public/dummy.png",
     price: {
       token: MockUSDC,
-      uint: parseUnits("100", 6),
+      uint: parseUnits("43322", 6),
     },
     seller: "0x0000000000000000000000000000000000000000",
     metadata: {

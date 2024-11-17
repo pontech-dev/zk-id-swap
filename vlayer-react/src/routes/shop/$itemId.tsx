@@ -168,8 +168,8 @@ function RouteComponent() {
           {/* Product image */}
           <div className="lg:col-span-4 lg:row-end-1">
             <img
-              alt={product.imageAlt}
-              src={product.imageSrc}
+              alt={shopItem.bannerImg}
+              src={shopItem.bannerImg}
               className="aspect-[4/3] w-full rounded-xl bg-gray-100 object-cover"
             />
           </div>

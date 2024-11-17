@@ -161,21 +161,11 @@ function RouteComponent() {
       <Form {...form}>
         <div className="divide-y divide-stone/5">
           <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
-            <div>
-              <h2 className="text-base/7 font-semibold">Account Information</h2>
-              <p className="mt-1 text-sm/6 text-gray-400">
-                Use a permanent address where you can receive mail.
-              </p>
-            </div>
+
 
             <form className="md:col-span-2">
               <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
                 <div className="col-span-full flex items-center gap-x-8">
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="size-24 flex-none rounded-lg bg-gray-800 object-cover"
-                  />
                   <div>
                     {/* <button
                       type="button"
@@ -193,109 +183,6 @@ function RouteComponent() {
                       You need a Vlayer browser extension to generate a webproof
                     </p>
                   </div>
-                </div>
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Your public display name
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Your public display name
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="twitterId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Twitter ID</FormLabel>
-                        <FormControl>
-                          <Input placeholder="@username" {...field} disabled />
-                        </FormControl>
-                        <FormDescription>
-                          Your Twitter handle (starts with @)
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="followers"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Followers Count</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Number of Twitter followers
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="tweets"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tweet Count</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Total number of tweets
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </div>
                 <div className="col-span-full">
                   <FormField
